@@ -1,3 +1,5 @@
+package data;
+
 /**
  * Class to represent a color, broken down into 3 values,
  * red, green, and blue. Could be extended to also represent
@@ -8,7 +10,7 @@
  * range, with 0 being the lowest value and 255 being the
  * highest.
  */
-public class Color {
+public class ColorPixel {
 
   // Data
   private int r;
@@ -25,7 +27,7 @@ public class Color {
    * @param b the value for blue
    * @throws IllegalArgumentException if any of the given color values are invalid
    */
-  public Color(int r, int g, int b) throws IllegalArgumentException {
+  public ColorPixel(int r, int g, int b) throws IllegalArgumentException {
 
     // Check if the inputs are valid
     if (r < 0 || r > 255) {
