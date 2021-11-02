@@ -123,8 +123,8 @@ public class ImageProControllerImpl implements ImageProController {
           catch (IllegalArgumentException e) {
             renderMessageHelper("Invalid: " + e.getMessage() + "\n");
           }
+          renderMessageHelper("Luma component created!\n");
           break;
-        renderMessageHelper("Luma component created!\n");
         case "horizontal-flip":
           try {
             model.horFlip(scan.next(), scan.next());
