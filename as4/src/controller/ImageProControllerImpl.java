@@ -1,8 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
 import java.util.Scanner;
 
 import model.ImageProModel;
@@ -42,17 +40,13 @@ public class ImageProControllerImpl implements ImageProController {
     // Other stored things
 
     // Do a welcome message?
+    renderMessageHelper();
 
     // Loop while not quit
     while (!quit) {
 
       // Print message
-      try {
-        view.renderMessage("Type instruction: \n");
-      }
-      catch (IOException e) {
-        throw new IllegalStateException(e.getMessage());
-      }
+      renderMessageHelper("Type instruction: \n");
 
       // Get the next input (QQ maybe check if there is one first)
       String userInput = scan.next();
@@ -61,72 +55,110 @@ public class ImageProControllerImpl implements ImageProController {
       switch (userInput) {
         case "load": // load image
           try {
-            model.loadImage(scan.next());
+            model.loadImage(scan.next(), scan.next());
           }
           catch (IllegalArgumentException e) {
-            try {
-              view.renderMessage("Given path did not load an image\n");
-            }
-            catch (IOException e2) {
-              throw new IllegalStateException(e2.getMessage());
-            }
+            renderMessageHelper("Invalid: " + e.getMessage() + "\n");
           }
+          renderMessageHelper("Image loaded!\n");
           break;
         case "save": // save image
           try {
-            model.saveImage(scan.next());
+            model.saveImage(scan.next(), scan.next());
           }
           catch (IllegalArgumentException e) {
-            try {
-              view.renderMessage("Could not save image at given path\n");
-            }
-            catch (IOException e2) {
-              throw new IllegalStateException(e2.getMessage());
-            }
+            renderMessageHelper("Invalid: " + e.getMessage() + "\n");
+          }
+          renderMessageHelper("Image saved!\n");
+          break;
+        case "red-component":
+          try {
+            model.redComponent(scan.next(), scan.next());
+          }
+          catch (IllegalArgumentException e) {
+            renderMessageHelper("Invalid: " + e.getMessage() + "\n");
+          }
+          renderMessageHelper("Red component created!\n");
+          break;
+        case "green-component":
+          try {
+            model.greenComponent(scan.next(), scan.next());
+          }
+          catch (IllegalArgumentException e) {
+            renderMessageHelper("Invalid: " + e.getMessage() + "\n");
+          }
+          renderMessageHelper("Green component created!\n");
+          break;
+        case "blue-component":
+          try {
+            model.blueComponent(scan.next(), scan.next());
+          }
+          catch (IllegalArgumentException e) {
+            renderMessageHelper("Invalid: " + e.getMessage() + "\n");
+          }
+          renderMessageHelper("Blue component created!\n");
+          break;
+        case "value-component":
+          try {
+            model.valueComponent(scan.next(), scan.next());
+          }
+          catch (IllegalArgumentException e) {
+            renderMessageHelper("Invalid: " + e.getMessage() + "\n");
+          }
+          renderMessageHelper("Value component created!\n");
+          break;
+        case "intensity-component":
+          try {
+            model.intensityComponent(scan.next(), scan.next());
+          }
+          catch (IllegalArgumentException e) {
+            renderMessageHelper("Invalid: " + e.getMessage() + "\n");
+          }
+          renderMessageHelper("Intensity component created!\n");
+          break;
+        case "luma-component":
+          try {
+            model.lumaComponent(scan.next(), scan.next());
+          }
+          catch (IllegalArgumentException e) {
+            renderMessageHelper("Invalid: " + e.getMessage() + "\n");
           }
           break;
-        case "red-component": // save image
-
-          // Do stuff here
+        renderMessageHelper("Luma component created!\n");
+        case "horizontal-flip":
+          try {
+            model.horFlip(scan.next(), scan.next());
+          }
+          catch (IllegalArgumentException e) {
+            renderMessageHelper("Invalid: " + e.getMessage() + "\n");
+          }
+          renderMessageHelper("Horizontal flip created!\n");
           break;
-        case "green-component": // save image
-          // Do stuff here
+        case "vertical-flip":
+          try {
+            model.vertFlip(scan.next(), scan.next());
+          }
+          catch (IllegalArgumentException e) {
+            renderMessageHelper("Invalid: " + e.getMessage() + "\n");
+          }
+          renderMessageHelper("Vertical flip created!\n");
           break;
-        case "blue-component": // save image
-          // Do stuff here
-          break;
-          // value, intensity, luma
-        case "value-component": // save image
-          // Do stuff here
-          break;
-        case "intensity-component": // save image
-          // Do stuff here
-          break;
-        case "luma-component": // save image
-          // Do stuff here
-          break;
-        case "horizontal-flip": // save image
-          // Do stuff here
-          break;
-        case "vertical-flip": // save image
-          // Do stuff here
-          break;
-        case "brighten": // save image
-          // Do stuff here
+        case "brighten":
+          try {
+            model.brighten(scan.nextInt(), scan.next(), scan.next());
+          }
+          catch (IllegalArgumentException e) {
+            renderMessageHelper("Invalid: " + e.getMessage() + "\n");
+          }
+          renderMessageHelper("Brighter / Darker image created!\n");
           break;
         case "q":
         case "quit":
           quit = true;
+          renderMessageHelper("Program quit. Thanks!");
           break;
         default: // Unrecognized command
-          try {
-            view.renderMessage("Unrecognized Command: " + userInput + "\n");
-          }
-          catch (IOException e) {
-            throw new IllegalStateException(e.getMessage());
-          }
-
-
+          renderMessageHelper("Unrecognized Command: " + userInput + "\n");
       }
 
 
@@ -135,6 +167,15 @@ public class ImageProControllerImpl implements ImageProController {
     }
 
 
+  }
+
+  private void renderMessageHelper(String message) throws IllegalStateException {
+    try {
+      view.renderMessage(message);
+    }
+    catch (IOException e) {
+      throw new IllegalStateException(e.getMessage());
+    }
   }
 
 }
