@@ -40,6 +40,13 @@ public interface ImageProModel {
   ImageProModel blueComponent();
 
   /**
+   * Creates a visualization of the value in the
+   * image represented by this model.
+   * @return the model representing the new image
+   */
+  ImageProModel valueComponent();
+
+  /**
    * Creates a visualization of the intensity in the
    * image represented by this model.
    * @return the model representing the new image
