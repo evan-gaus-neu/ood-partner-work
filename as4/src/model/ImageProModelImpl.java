@@ -1,7 +1,13 @@
 package model;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 import data.ColorPixel;
 
@@ -17,13 +23,100 @@ public class ImageProModelImpl implements ImageProModel {
   }
 
   @Override
-  public void loadImage(String path, String name) {
+  public void loadImage(String path, String name) throws IllegalArgumentException {
+    // Open the file in a scanner
+    Scanner scan;
+    try {
+      scan = new Scanner(new FileInputStream(path));
+    }
+    catch (FileNotFoundException e) {
+      throw new IllegalArgumentException("File: " + path + " was not found");
+    }
+
+    // Populate it ignoring comments
+    StringBuilder sb = new StringBuilder();
+    while (scan.hasNextLine()) {
+      String s = scan.nextLine();
+      if (s.charAt(0) != '#') {
+        sb.append(s + "\n");
+      }
+    }
+
+    // Now make the scanner read from the string we just built
+    scan = new Scanner(sb.toString());
+
+    // Check stuff
+    String type = scan.next();
+    if (type != "P6") {
+      throw new IllegalArgumentException("Invalid PPM: Valid PPM should start with P6");
+    }
+
+    // Get info
+    int width = scan.nextInt();
+    int height = scan.nextInt();
+    int maxValue = scan.nextInt();
+
+    // Create the image array
+    ColorPixel [][] image = new ColorPixel[height][width];
+
+    // Populate the image array
+    for (int i = 0; i < height; i++) {
+      for (int k = 0; k < width; k++) {
+        // Get the color
+        int r = scan.nextInt();
+        int g = scan.nextInt();
+        int b = scan.nextInt();
+        // Set the color
+        image[i][k] = new ColorPixel(r, g, b);
+      }
+    }
+
+    // Put the array in the hashmap
+    images.put(name, image);
 
   }
 
   @Override
-  public void saveImage(String path, String name) {
+  public void saveImage(String path, String name) throws IllegalArgumentException {
+    // Check if the name is valid
+    if (!images.containsKey(name)) {
+      throw new IllegalArgumentException("Given name didn't correspond to an image");
+    }
 
+    // The image
+    ColorPixel [][] image = images.get(name);
+
+    // Get the image as a string
+    String str = new String();
+    for (int i = 0; i < image.length; i++) {
+      for (int k = 0; k < image[i].length; k++) {
+        // Add this pixel
+        ColorPixel cp = image[i][k];
+        str += cp.getR() + " " + cp.getG() + " " + cp.getB() + " ";
+      }
+      // Add a new line
+      str += "\n";
+    }
+
+    // Create a new file
+    File newFile = new File(path);
+    if (newFile.createNewFile()) {
+      // Created a new file
+      writeToFile(path, image[0].length, image.length, str);
+    }
+
+  }
+
+  private void writeToFile(String path, int width, int height, String str) throws IllegalArgumentException {
+    try {
+      FileWriter fw = new FileWriter(path);
+      fw.write("P6\n" + width + " " + height + "\n255\n" + str);
+      fw.close();
+      // Successfully wrote the file
+    }
+    catch (IOException e) {
+      throw new IllegalArgumentException("File write failed");
+    }
   }
 
   private void colorComponent(String input, String name, String dest) {
