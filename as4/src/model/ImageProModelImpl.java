@@ -89,16 +89,40 @@ public class ImageProModelImpl implements ImageProModel {
 
   @Override
   public ImageProModel horFlip() {
-    return null;
+    ImageProModelImpl original = this;
+    ImageProModelImpl newModel = this;
+    for(int i = 0; i < newModel.image.length; i++) {
+      for (int j = 0; j < newModel.image[i].length; j++) {
+        newModel.image[i][j] = original.image[i][(newModel.image.length) - 1 - j];
+      }
+    }
+    return newModel;
   }
 
   @Override
   public ImageProModel vertFlip() {
-    return null;
+    ImageProModelImpl original = this;
+    ImageProModelImpl newModel = this;
+    for(int i = 0; i < newModel.image.length; i++) {
+      for (int j = 0; j < newModel.image[i].length; j++) {
+        newModel.image[i][j] = original.image[(newModel.image.length) - 1 - i][j];
+      }
+    }
+    return newModel;
   }
 
   @Override
   public ImageProModel brighten(int increment) {
-    return null;
+    ImageProModelImpl newModel = this;
+    for(int i = 0; i < newModel.image.length; i++) {
+      for (int j = 0; j < newModel.image[i].length; j++) {
+        ColorPixel pixel = new ColorPixel(newModel.image[i][j].getR(),
+                newModel.image[i][j].getG(), newModel.image[i][j].getB());
+        newModel.image[i][j].setR(pixel.getR() + increment);
+        newModel.image[i][j].setG(pixel.getG() + increment);
+        newModel.image[i][j].setB(pixel.getB() + increment);
+      }
+    }
+    return newModel;
   }
 }

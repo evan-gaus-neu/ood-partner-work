@@ -81,7 +81,9 @@ public interface ImageProModel {
    *
    * The suggested range for increment is -255 to 255,
    * because anything lower or higher than this range
-   * will have the same effect as -255 or 255
+   * will have the same effect as -255 or 255.
+   * Key note positive values will brighten and negative values
+   * will darken.
    * @param increment the increment to change the brightness
    * @return the model representing the new image
    */
