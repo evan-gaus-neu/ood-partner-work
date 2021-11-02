@@ -67,8 +67,15 @@ public class ImageProModelImpl implements ImageProModel {
   }
 
   @Override
-  public void redComponent(String name, String dest) {
-    colorComponent("Red", name, dest);
+  public void redComponent(String name, String dest) throws IllegalStateException {
+
+    if (images.containsKey(name)) {
+      colorComponent("Red", name, dest);
+    }
+    else {
+      throw new IllegalArgumentException("Given name didn't correspond to an image");
+    }
+
   }
 
   @Override
