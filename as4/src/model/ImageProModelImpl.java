@@ -36,10 +36,13 @@ public class ImageProModelImpl implements ImageProModel {
     // Populate it ignoring comments
     StringBuilder sb = new StringBuilder();
     while (scan.hasNextLine()) {
-      String s = scan.nextLine();
-      if (s.charAt(0) != '#') {
-        sb.append(s + "\n");
+      String st = scan.nextLine();
+      if (st.length() > 0) {
+        if (st.charAt(0) != '#') {
+          sb.append(st + "\n");
+        }
       }
+
     }
 
     // Now make the scanner read from the string we just built
@@ -47,8 +50,8 @@ public class ImageProModelImpl implements ImageProModel {
 
     // Check stuff
     String type = scan.next();
-    if (type != "P6") {
-      throw new IllegalArgumentException("Invalid PPM: Valid PPM should start with P6");
+    if (!(type.equals("P6") || type.equals("P3"))) {
+      throw new IllegalArgumentException("Invalid PPM: Valid PPM should start with P6 or P3");
     }
 
     // Get info
@@ -99,10 +102,20 @@ public class ImageProModelImpl implements ImageProModel {
     }
 
     // Create a new file
-    File newFile = new File(path);
-    if (newFile.createNewFile()) {
-      // Created a new file
-      writeToFile(path, image[0].length, image.length, str);
+    try {
+      File newFile = new File(path);
+      if (newFile.createNewFile()) {
+        // Created a new file
+        try {
+          writeToFile(path, image[0].length, image.length, str);
+        }
+        catch (IllegalArgumentException e) {
+          throw e;
+        }
+      }
+    }
+    catch (IOException e) {
+      throw new IllegalArgumentException("New file could not be created");
     }
 
   }

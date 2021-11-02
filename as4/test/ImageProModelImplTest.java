@@ -21,11 +21,17 @@ public class ImageProModelImplTest {
     Reader in = new StringReader("q");
     StringBuilder out = new StringBuilder();
 
+    // Set up the model, view, and controller
     ImageProModel model = new ImageProModelImpl();
     ImageProView view = new ImageProViewImpl(model, out);
     ImageProController controller = new ImageProControllerImpl(model, view, in);
 
-    assertEquals("Nothing", out.toString());
+    // Run the controller
+    controller.run();
+
+    assertEquals("Welcome to the Image Processor!\n" +
+            "Type instruction: \n" +
+            "Program quit. Thanks!", out.toString());
 
   }
 

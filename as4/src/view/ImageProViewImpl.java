@@ -35,7 +35,7 @@ public class ImageProViewImpl implements ImageProView {
 
   @Override
   public void renderMessage(String message) throws IOException {
-
+    out.append(message);
   }
 
   // Make a to string that prints out every pixel
