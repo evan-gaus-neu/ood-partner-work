@@ -26,7 +26,13 @@ public class ImageProModelImpl implements ImageProModel {
 
   }
 
-  private ImageProModel colorComponent(String input) {
+  private ImageProModel colorComponent(String input, String name, String dest) {
+
+    // Might have to add error handling
+    ColorPixel [][] oldImage = images.get(name);
+    ColorPixel [][] newImage = oldImage;
+
+
     ImageProModelImpl newModel = this;
     for(int i = 0; i < newModel.image.length; i++) {
       for(int j = 0; j < newModel.image[i].length; j++) {
@@ -56,6 +62,10 @@ public class ImageProModelImpl implements ImageProModel {
         }
       }
     }
+
+    // Instead of returning
+    images.put(dest, newImage);
+
     return newModel;
   }
 
