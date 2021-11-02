@@ -38,5 +38,7 @@ public class ImageProViewImpl implements ImageProView {
 
   }
 
+  // Make a to string that prints out every pixel
+
 
 }
