@@ -40,7 +40,7 @@ public class ImageProControllerImpl implements ImageProController {
     // Other stored things
 
     // Do a welcome message?
-    renderMessageHelper();
+    renderMessageHelper("Welcome to the Image Processor!\n");
 
     // Loop while not quit
     while (!quit) {
