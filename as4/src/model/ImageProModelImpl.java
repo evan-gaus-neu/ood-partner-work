@@ -50,8 +50,8 @@ public class ImageProModelImpl implements ImageProModel {
 
     // Check stuff
     String type = scan.next();
-    if (!(type.equals("P6") || type.equals("P3"))) {
-      throw new IllegalArgumentException("Invalid PPM: Valid PPM should start with P6 or P3");
+    if (!type.equals("P3")) {
+      throw new IllegalArgumentException("Invalid PPM: Valid PPM should start with P3");
     }
 
     // Get info
@@ -95,10 +95,10 @@ public class ImageProModelImpl implements ImageProModel {
       for (int k = 0; k < image[i].length; k++) {
         // Add this pixel
         ColorPixel cp = image[i][k];
-        str += cp.getR() + " " + cp.getG() + " " + cp.getB() + " ";
+        str += cp.getR() + "\n";
+        str += cp.getG() + "\n";
+        str += cp.getB() + "\n";
       }
-      // Add a new line
-      str += "\n";
     }
 
     // Create a new file
