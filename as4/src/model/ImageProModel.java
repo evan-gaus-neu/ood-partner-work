@@ -9,70 +9,105 @@ public interface ImageProModel {
   /**
    * Loads a ppm image from the given path into the model.
    * @param path the path of the image
+   * @param name the name of the image
+   * @throws IllegalArgumentException if the path doesn't refer to a valid image
    */
-  void loadImage(String path);
+  void loadImage(String path, String name) throws IllegalArgumentException;
 
   /**
-   * Saves the image represented by this model to the given path.
+   *
    * @param path the path of the newly saved image
    */
-  void saveImage(String path);
+
+  /**
+   * Saves the image represented by the given name to the given path.
+   * @param path the path of the newly saved image
+   * @param name the name of the image to be saved
+   * @throws IllegalArgumentException if the name of the image to be saved
+   *                                  doesn't exist in the map of images
+   */
+  void saveImage(String path, String name) throws IllegalArgumentException;
+
 
   /**
    * Creates a visualization of the red in the
    * image represented by this model.
-   * @return the model representing the new image
+   * @param name the name of the image to copy
+   * @param dest the name of the destination image
+   * @throws IllegalArgumentException if the name of the image to be copied
+   *                                  doesn't exist in the map of images
    */
-  ImageProModel redComponent();
+  void redComponent(String name, String dest) throws IllegalArgumentException;
 
   /**
    * Creates a visualization of the green in the
    * image represented by this model.
-   * @return the model representing the new image
+   * @param name the name of the image to copy
+   * @param dest the name of the destination image
+   * @throws IllegalArgumentException if the name of the image to be copied
+   *                                  doesn't exist in the map of images
    */
-  ImageProModel greenComponent();
+  void greenComponent(String name, String dest) throws IllegalArgumentException;
 
   /**
    * Creates a visualization of the blue in the
    * image represented by this model.
-   * @return the model representing the new image
+   * @param name the name of the image to copy
+   * @param dest the name of the destination image
+   * @throws IllegalArgumentException if the name of the image to be copied
+   *                                  doesn't exist in the map of images
    */
-  ImageProModel blueComponent();
+  void blueComponent(String name, String dest) throws IllegalArgumentException;
 
   /**
    * Creates a visualization of the value in the
    * image represented by this model.
-   * @return the model representing the new image
+   * @param name the name of the image to copy
+   * @param dest the name of the destination image
+   * @throws IllegalArgumentException if the name of the image to be copied
+   *                                  doesn't exist in the map of images
    */
-  ImageProModel valueComponent();
+  void valueComponent(String name, String dest) throws IllegalArgumentException;
 
   /**
    * Creates a visualization of the intensity in the
    * image represented by this model.
-   * @return the model representing the new image
+   * @param name the name of the image to copy
+   * @param dest the name of the destination image
+   * @throws IllegalArgumentException if the name of the image to be copied
+   *                                  doesn't exist in the map of images
    */
-  ImageProModel intensityComponent();
+  void intensityComponent(String name, String dest) throws IllegalArgumentException;
 
   /**
    * Creates a visualization of the luma of the
    * image represented by this model.
-   * @return the model representing the new image
+   * @param name the name of the image to copy
+   * @param dest the name of the destination image
+   * @throws IllegalArgumentException if the name of the image to be copied
+   *                                  doesn't exist in the map of images
    */
-  ImageProModel lumaComponent();
+  void lumaComponent(String name, String dest) throws IllegalArgumentException;
 
   /**
    * Creates a new image that is a horizontal flip
    * of this model.
-   * @return the model representing the new image
+   * @param name the name of the image to copy
+   * @param dest the name of the destination image
+   * @throws IllegalArgumentException if the name of the image to be copied
+   *                                  doesn't exist in the map of images
    */
-  ImageProModel horFlip();
+  void horFlip(String name, String dest) throws IllegalArgumentException;
 
   /**
    * Creates a new image that is a vertical flip
    * of this model.
-   * @return the model representing the new image
+   * @param name the name of the image to copy
+   * @param dest the name of the destination image
+   * @throws IllegalArgumentException if the name of the image to be copied
+   *                                  doesn't exist in the map of images
    */
-  ImageProModel vertFlip();
+  void vertFlip(String name, String dest) throws IllegalArgumentException;
 
   /**
    * Creates a new image that is a brightened or
@@ -85,8 +120,11 @@ public interface ImageProModel {
    * Key note positive values will brighten and negative values
    * will darken.
    * @param increment the increment to change the brightness
-   * @return the model representing the new image
+   * @param name the name of the image to copy
+   * @param dest the name of the destination image
+   * @throws IllegalArgumentException if the name of the image to be copied
+   *                                  doesn't exist in the map of images
    */
-  ImageProModel brighten(int increment);
+  void brighten(int increment, String name, String dest) throws IllegalArgumentException;
 
 }

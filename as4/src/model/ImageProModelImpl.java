@@ -1,26 +1,28 @@
 package model;
 
-import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import data.ColorPixel;
 
 public class ImageProModelImpl implements ImageProModel {
 
   // Data
-  // This represents the image, it's a matrix of color
-  private ColorPixel[][] image;
+  // This represents the Map of all images
+  // (stored in the <Name, Image> format)
+  private Map<String, ColorPixel[][]> images;
 
   public ImageProModelImpl() {
-    // I don't think we do anything, but possible load an image on instantiation
+    this.images = new HashMap<String, ColorPixel[][]>();
   }
 
   @Override
-  public void loadImage(String path) {
+  public void loadImage(String path, String name) {
 
   }
 
   @Override
-  public void saveImage(String path) {
+  public void saveImage(String path, String name) {
 
   }
 
@@ -58,37 +60,37 @@ public class ImageProModelImpl implements ImageProModel {
   }
 
   @Override
-  public ImageProModel redComponent() {
+  public void redComponent(String name, String dest) {
     return colorComponent("Red");
   }
 
   @Override
-  public ImageProModel greenComponent() {
+  public void greenComponent(String name, String dest) {
     return colorComponent("Green");
   }
 
   @Override
-  public ImageProModel blueComponent() {
+  public void blueComponent(String name, String dest) {
     return colorComponent("Blue");
   }
 
   @Override
-  public ImageProModel valueComponent() {
+  public void valueComponent(String name, String dest) {
     return colorComponent("Value");
   }
 
   @Override
-  public ImageProModel intensityComponent() {
+  public void intensityComponent(String name, String dest) {
     return colorComponent("Intensity");
   }
 
   @Override
-  public ImageProModel lumaComponent() {
+  public void lumaComponent(String name, String dest) {
     return colorComponent("Luma");
   }
 
   @Override
-  public ImageProModel horFlip() {
+  public void horFlip(String name, String dest) {
     ImageProModelImpl original = this;
     ImageProModelImpl newModel = this;
     for(int i = 0; i < newModel.image.length; i++) {
@@ -100,7 +102,7 @@ public class ImageProModelImpl implements ImageProModel {
   }
 
   @Override
-  public ImageProModel vertFlip() {
+  public void vertFlip(String name, String dest) {
     ImageProModelImpl original = this;
     ImageProModelImpl newModel = this;
     for(int i = 0; i < newModel.image.length; i++) {
@@ -112,7 +114,7 @@ public class ImageProModelImpl implements ImageProModel {
   }
 
   @Override
-  public ImageProModel brighten(int increment) {
+  public void brighten(int increment, String name, String dest) {
     ImageProModelImpl newModel = this;
     for(int i = 0; i < newModel.image.length; i++) {
       for (int j = 0; j < newModel.image[i].length; j++) {

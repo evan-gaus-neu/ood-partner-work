@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.Scanner;
 
 import model.ImageProModel;
@@ -42,7 +44,6 @@ public class ImageProControllerImpl implements ImageProController {
     // Do a welcome message?
 
     // Loop while not quit
-
     while (!quit) {
 
       // Print message
@@ -59,12 +60,33 @@ public class ImageProControllerImpl implements ImageProController {
       // Switch for userInput
       switch (userInput) {
         case "load": // load image
-          // Do stuff here
+          try {
+            model.loadImage(scan.next());
+          }
+          catch (IllegalArgumentException e) {
+            try {
+              view.renderMessage("Given path did not load an image\n");
+            }
+            catch (IOException e2) {
+              throw new IllegalStateException(e2.getMessage());
+            }
+          }
           break;
         case "save": // save image
-          // Do stuff here
+          try {
+            model.saveImage(scan.next());
+          }
+          catch (IllegalArgumentException e) {
+            try {
+              view.renderMessage("Could not save image at given path\n");
+            }
+            catch (IOException e2) {
+              throw new IllegalStateException(e2.getMessage());
+            }
+          }
           break;
         case "red-component": // save image
+
           // Do stuff here
           break;
         case "green-component": // save image
