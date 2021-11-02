@@ -26,12 +26,10 @@ public class ImageProModelImpl implements ImageProModel {
 
   }
 
-  private ImageProModel colorComponent(String input, String name, String dest) {
-
+  private void colorComponent(String input, String name, String dest) {
     // Might have to add error handling
     ColorPixel [][] oldImage = images.get(name);
     ColorPixel [][] newImage = oldImage;
-
 
     ImageProModelImpl newModel = this;
     for(int i = 0; i < newImage.length; i++) {
@@ -67,78 +65,120 @@ public class ImageProModelImpl implements ImageProModel {
   }
 
   @Override
-  public void redComponent(String name, String dest) throws IllegalStateException {
-
+  public void redComponent(String name, String dest) throws IllegalArgumentException {
     if (images.containsKey(name)) {
       colorComponent("Red", name, dest);
     }
     else {
       throw new IllegalArgumentException("Given name didn't correspond to an image");
     }
-
   }
 
   @Override
-  public void greenComponent(String name, String dest) {
-    colorComponent("Green", name, dest);
-  }
-
-  @Override
-  public void blueComponent(String name, String dest) {
-    colorComponent("Blue", name, dest);
-  }
-
-  @Override
-  public void valueComponent(String name, String dest) {
-    colorComponent("Value", name, dest);
-  }
-
-  @Override
-  public void intensityComponent(String name, String dest) {
-    colorComponent("Intensity", name, dest);
-  }
-
-  @Override
-  public void lumaComponent(String name, String dest) {
-    colorComponent("Luma", name, dest);
-  }
-
-  @Override
-  public void horFlip(String name, String dest) {
-    ImageProModelImpl original = this;
-    ImageProModelImpl newModel = this;
-    for(int i = 0; i < newModel.image.length; i++) {
-      for (int j = 0; j < newModel.image[i].length; j++) {
-        newModel.image[i][j] = original.image[i][(newModel.image.length) - 1 - j];
-      }
+  public void greenComponent(String name, String dest) throws IllegalArgumentException {
+    if (images.containsKey(name)) {
+      colorComponent("Green", name, dest);
     }
-    return newModel;
+    else {
+      throw new IllegalArgumentException("Given name didn't correspond to an image");
+    }
   }
 
   @Override
-  public void vertFlip(String name, String dest) {
-    ImageProModelImpl original = this;
-    ImageProModelImpl newModel = this;
-    for(int i = 0; i < newModel.image.length; i++) {
-      for (int j = 0; j < newModel.image[i].length; j++) {
-        newModel.image[i][j] = original.image[(newModel.image.length) - 1 - i][j];
-      }
+  public void blueComponent(String name, String dest) throws IllegalArgumentException {
+    if (images.containsKey(name)) {
+      colorComponent("Blue", name, dest);
     }
-    return newModel;
+    else {
+      throw new IllegalArgumentException("Given name didn't correspond to an image");
+    }
   }
 
   @Override
-  public void brighten(int increment, String name, String dest) {
-    ImageProModelImpl newModel = this;
-    for(int i = 0; i < newModel.image.length; i++) {
-      for (int j = 0; j < newModel.image[i].length; j++) {
-        ColorPixel pixel = new ColorPixel(newModel.image[i][j].getR(),
-                newModel.image[i][j].getG(), newModel.image[i][j].getB());
-        newModel.image[i][j].setR(pixel.getR() + increment);
-        newModel.image[i][j].setG(pixel.getG() + increment);
-        newModel.image[i][j].setB(pixel.getB() + increment);
-      }
+  public void valueComponent(String name, String dest) throws IllegalArgumentException {
+    if (images.containsKey(name)) {
+      colorComponent("Value", name, dest);
     }
-    return newModel;
+    else {
+      throw new IllegalArgumentException("Given name didn't correspond to an image");
+    }
+  }
+
+  @Override
+  public void intensityComponent(String name, String dest) throws IllegalArgumentException {
+    if (images.containsKey(name)) {
+      colorComponent("Intensity", name, dest);
+    }
+    else {
+      throw new IllegalArgumentException("Given name didn't correspond to an image");
+    }
+  }
+
+  @Override
+  public void lumaComponent(String name, String dest) throws IllegalArgumentException {
+    if (images.containsKey(name)) {
+      colorComponent("Luma", name, dest);
+    }
+    else {
+      throw new IllegalArgumentException("Given name didn't correspond to an image");
+    }
+  }
+
+  @Override
+  public void horFlip(String name, String dest) throws IllegalArgumentException {
+    if (images.containsKey(name)) {
+      ColorPixel[][] oldImage = images.get(name);
+      ColorPixel[][] newImage = oldImage;
+
+      for(int i = 0; i < newImage.length; i++) {
+        for (int j = 0; j < newImage[i].length; j++) {
+          newImage[i][j] = oldImage[i][(newImage[i].length) - 1 - j];
+        }
+      }
+      images.put(dest, newImage);
+    }
+    else {
+      throw new IllegalArgumentException("Given name didn't correspond to an image");
+    }
+  }
+
+  @Override
+  public void vertFlip(String name, String dest) throws IllegalArgumentException {
+    if (images.containsKey(name)) {
+      ColorPixel[][] oldImage = images.get(name);
+      ColorPixel[][] newImage = oldImage;
+
+      for(int i = 0; i < newImage.length; i++) {
+        for (int j = 0; j < newImage[i].length; j++) {
+          newImage[i][j] = oldImage[(newImage.length) - 1 - i][j];
+        }
+      }
+      images.put(dest, newImage);
+    }
+    else {
+      throw new IllegalArgumentException("Given name didn't correspond to an image");
+    }
+  }
+
+  @Override
+  public void brighten(int increment, String name, String dest) throws IllegalArgumentException {
+    if (images.containsKey(name)) {
+      ColorPixel[][] oldImage = images.get(name);
+      ColorPixel[][] newImage = oldImage;
+
+      for(int i = 0; i < newImage.length; i++) {
+        for (int j = 0; j < newImage[i].length; j++) {
+          ColorPixel pixel = new ColorPixel(oldImage[i][j].getR(),
+                  oldImage[i][j].getG(), oldImage[i][j].getB());
+          newImage[i][j].setR(pixel.getR() + increment);
+          newImage[i][j].setG(pixel.getG() + increment);
+          newImage[i][j].setB(pixel.getB() + increment);
+        }
+      }
+      images.put(dest, newImage);
+    }
+    else {
+      throw new IllegalArgumentException("Given name didn't correspond to an image");
+    }
   }
 }
