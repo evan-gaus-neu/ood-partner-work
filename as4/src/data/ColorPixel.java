@@ -5,7 +5,6 @@ package data;
  * red, green, and blue. Could be extended to also represent
  * a color with an opacity value. Individual RGB values can
  * be got and set.
- *
  * NOTE: The setters round the "set value" to be within the
  * range, with 0 being the lowest value and 255 being the
  * highest.
@@ -61,7 +60,7 @@ public class ColorPixel {
    * than 255, R is set to 255.
    * @param r the new value of R for this color (0-255)
    */
-  public void setR(int r){
+  public void setR(int r) {
     if (r < 0) {
       this.r = 0;
     }

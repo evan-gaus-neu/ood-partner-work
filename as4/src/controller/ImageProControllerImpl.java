@@ -7,6 +7,10 @@ import java.util.Scanner;
 import model.ImageProModel;
 import view.ImageProView;
 
+/**
+ * The class that acts as the Controller for this design
+ * and is based on the interface ImageProController.
+ */
 public class ImageProControllerImpl implements ImageProController {
 
   // Data
@@ -15,6 +19,13 @@ public class ImageProControllerImpl implements ImageProController {
   private Readable in;
 
   // Constructor
+  /**
+   * This is the constructor for the ImageProControllerImpl that is used to make an instance.
+   * @param model an ImageProModel that is used for the model field.
+   * @param view an ImageProView that is used for the view field.
+   * @param in a Readable that is used for getting an input.
+   * @throws IllegalArgumentException
+   */
   public ImageProControllerImpl(ImageProModel model, ImageProView view, Readable in)
           throws IllegalArgumentException {
     if (model == null) {

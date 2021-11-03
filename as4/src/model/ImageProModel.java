@@ -14,10 +14,6 @@ public interface ImageProModel {
    */
   void loadImage(String path, String name) throws IllegalArgumentException;
 
-  /**
-   *
-   * @param path the path of the newly saved image
-   */
 
   /**
    * Saves the image represented by the given name to the given path.
