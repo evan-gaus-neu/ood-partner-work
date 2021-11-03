@@ -56,101 +56,101 @@ public class ImageProControllerImpl implements ImageProController {
         case "load": // load image
           try {
             model.loadImage(scan.next(), scan.next());
+            renderMessageHelper("Image loaded!\n");
           }
           catch (IllegalArgumentException e) {
             renderMessageHelper("Invalid: " + e.getMessage() + "\n");
           }
-          renderMessageHelper("Image loaded!\n");
           break;
         case "save": // save image
           try {
             model.saveImage(scan.next(), scan.next());
+            renderMessageHelper("Image saved!\n");
           }
           catch (IllegalArgumentException e) {
             renderMessageHelper("Invalid: " + e.getMessage() + "\n");
           }
-          renderMessageHelper("Image saved!\n");
           break;
         case "red-component":
           try {
             model.redComponent(scan.next(), scan.next());
+            renderMessageHelper("Red component created!\n");
           }
           catch (IllegalArgumentException e) {
             renderMessageHelper("Invalid: " + e.getMessage() + "\n");
           }
-          renderMessageHelper("Red component created!\n");
           break;
         case "green-component":
           try {
             model.greenComponent(scan.next(), scan.next());
+            renderMessageHelper("Green component created!\n");
           }
           catch (IllegalArgumentException e) {
             renderMessageHelper("Invalid: " + e.getMessage() + "\n");
           }
-          renderMessageHelper("Green component created!\n");
           break;
         case "blue-component":
           try {
             model.blueComponent(scan.next(), scan.next());
+            renderMessageHelper("Blue component created!\n");
           }
           catch (IllegalArgumentException e) {
             renderMessageHelper("Invalid: " + e.getMessage() + "\n");
           }
-          renderMessageHelper("Blue component created!\n");
           break;
         case "value-component":
           try {
             model.valueComponent(scan.next(), scan.next());
+            renderMessageHelper("Value component created!\n");
           }
           catch (IllegalArgumentException e) {
             renderMessageHelper("Invalid: " + e.getMessage() + "\n");
           }
-          renderMessageHelper("Value component created!\n");
           break;
         case "intensity-component":
           try {
             model.intensityComponent(scan.next(), scan.next());
+            renderMessageHelper("Intensity component created!\n");
           }
           catch (IllegalArgumentException e) {
             renderMessageHelper("Invalid: " + e.getMessage() + "\n");
           }
-          renderMessageHelper("Intensity component created!\n");
           break;
         case "luma-component":
           try {
             model.lumaComponent(scan.next(), scan.next());
+            renderMessageHelper("Luma component created!\n");
           }
           catch (IllegalArgumentException e) {
             renderMessageHelper("Invalid: " + e.getMessage() + "\n");
           }
-          renderMessageHelper("Luma component created!\n");
           break;
         case "horizontal-flip":
           try {
             model.horFlip(scan.next(), scan.next());
+            renderMessageHelper("Horizontal flip created!\n");
           }
           catch (IllegalArgumentException e) {
             renderMessageHelper("Invalid: " + e.getMessage() + "\n");
           }
-          renderMessageHelper("Horizontal flip created!\n");
           break;
         case "vertical-flip":
           try {
             model.vertFlip(scan.next(), scan.next());
+            renderMessageHelper("Vertical flip created!\n");
           }
           catch (IllegalArgumentException e) {
             renderMessageHelper("Invalid: " + e.getMessage() + "\n");
           }
-          renderMessageHelper("Vertical flip created!\n");
           break;
         case "brighten":
           try {
             model.brighten(scan.nextInt(), scan.next(), scan.next());
+            renderMessageHelper("Brighter / Darker image created!\n");
           }
           catch (IllegalArgumentException e) {
             renderMessageHelper("Invalid: " + e.getMessage() + "\n");
           }
-          renderMessageHelper("Brighter / Darker image created!\n");
           break;
         case "q":
         case "quit":

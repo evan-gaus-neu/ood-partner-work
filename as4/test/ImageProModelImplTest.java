@@ -79,4 +79,18 @@ public class ImageProModelImplTest {
 
   }
 
+
+
+
+  // Test all of the ColorPixel functionality (rounding and stuff)
+
+  // Test null inputs for the model controller and view
+
+  // Test bad inputs for the model controller and view
+
+  // Test bad inputs for the model commands
+
+  // Test good things for all of the different commands
+  // Using a helper method to compare the images
+
 }
