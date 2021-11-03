@@ -123,7 +123,7 @@ public class ImageProModelImpl implements ImageProModel {
   private void writeToFile(String path, int width, int height, String str) throws IllegalArgumentException {
     try {
       FileWriter fw = new FileWriter(path);
-      fw.write("P6\n" + width + " " + height + "\n255\n" + str);
+      fw.write("P3\n" + width + " " + height + "\n255\n" + str);
       fw.close();
       // Successfully wrote the file
     }
@@ -133,36 +133,48 @@ public class ImageProModelImpl implements ImageProModel {
   }
 
   private void colorComponent(String input, String name, String dest) {
-    // Might have to add error handling
     ColorPixel [][] oldImage = images.get(name);
     ColorPixel [][] newImage = oldImage;
 
-    ImageProModelImpl newModel = this;
     for(int i = 0; i < newImage.length; i++) {
       for(int j = 0; j < newImage[i].length; j++) {
-        ColorPixel pixel = new ColorPixel(oldImage[i][j].getR(),
-                oldImage[i][j].getG(), oldImage[i][j].getB());
+
+        ColorPixel p = oldImage[i][j];
+
         if (input.equals("Red")) {
-          newImage[i][j] = new ColorPixel(pixel.getR(), pixel.getR(), pixel.getR());
+          newImage[i][j].setR(p.getR());
+          newImage[i][j].setG(p.getR());
+          newImage[i][j].setB(p.getR());
         }
         else if (input.equals("Green")) {
-          newImage[i][j] = new ColorPixel(pixel.getG(), pixel.getG(), pixel.getG());
+          newImage[i][j].setR(p.getG());
+          newImage[i][j].setG(p.getG());
+          newImage[i][j].setB(p.getG());
         }
         else if (input.equals("Blue")) {
-          newImage[i][j] = new ColorPixel(pixel.getB(), pixel.getB(), pixel.getB());
+          newImage[i][j].setR(p.getB());
+          newImage[i][j].setG(p.getB());
+          newImage[i][j].setB(p.getB());
         }
         else if (input.equals("Value")) {
-          int max = Math.max(pixel.getB(), Math.max(pixel.getR(), pixel.getG()));
-          newImage[i][j] = new ColorPixel(max, max, max);
+          int max = Math.max(p.getR(), p.getG());
+          max = Math.max(max, p.getB());
+          newImage[i][j].setR(max);
+          newImage[i][j].setG(max);
+          newImage[i][j].setB(max);
         }
         else if (input.equals("Intensity")) {
-          int average = (int) Math.round((pixel.getR() + pixel.getG() + pixel.getB())/3.0);
-          newImage[i][j] = new ColorPixel(average, average, average);
+          int average = (int) Math.round((p.getR() + p.getG() + p.getB())/3.0);
+          newImage[i][j].setR(average);
+          newImage[i][j].setG(average);
+          newImage[i][j].setB(average);
         }
         else {
-          int luma = (int) Math.round(0.2126 * pixel.getR() + 0.7152 * pixel.getG()
-                  + 0.0722 * pixel.getB());
-          newImage[i][j] = new ColorPixel(luma, luma, luma);
+          int luma = (int) Math.round(0.2126 * p.getR() + 0.7152 * p.getG()
+                  + 0.0722 * p.getB());
+          newImage[i][j].setR(luma);
+          newImage[i][j].setG(luma);
+          newImage[i][j].setB(luma);
         }
       }
     }
