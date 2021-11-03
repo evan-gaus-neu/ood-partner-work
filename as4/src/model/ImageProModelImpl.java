@@ -90,7 +90,7 @@ public class ImageProModelImpl implements ImageProModel {
     ColorPixel [][] image = images.get(name);
 
     // Get the image as a string
-    String str = new String();
+    String str = "";
     for (int i = 0; i < image.length; i++) {
       for (int k = 0; k < image[i].length; k++) {
         // Add this pixel
@@ -106,6 +106,15 @@ public class ImageProModelImpl implements ImageProModel {
       File newFile = new File(path);
       if (newFile.createNewFile()) {
         // Created a new file
+        try {
+          writeToFile(path, image[0].length, image.length, str);
+        }
+        catch (IllegalArgumentException e) {
+          throw e;
+        }
+      }
+      else {
+        // File was already there
         try {
           writeToFile(path, image[0].length, image.length, str);
         }
@@ -134,7 +143,13 @@ public class ImageProModelImpl implements ImageProModel {
 
   private void colorComponent(String input, String name, String dest) {
     ColorPixel [][] oldImage = images.get(name);
-    ColorPixel [][] newImage = oldImage;
+    ColorPixel [][] newImage = new ColorPixel[oldImage.length][oldImage[0].length];
+
+    for(int i = 0; i < newImage.length; i++) {
+      for (int j = 0; j < newImage[i].length; j++) {
+        newImage[i][j] = new ColorPixel(0,0,0);
+      }
+    }
 
     for(int i = 0; i < newImage.length; i++) {
       for(int j = 0; j < newImage[i].length; j++) {
@@ -246,7 +261,13 @@ public class ImageProModelImpl implements ImageProModel {
   public void horFlip(String name, String dest) throws IllegalArgumentException {
     if (images.containsKey(name)) {
       ColorPixel[][] oldImage = images.get(name);
-      ColorPixel[][] newImage = oldImage;
+      ColorPixel [][] newImage = new ColorPixel[oldImage.length][oldImage[0].length];
+
+      for(int i = 0; i < newImage.length; i++) {
+        for (int j = 0; j < newImage[i].length; j++) {
+          newImage[i][j] = new ColorPixel(0,0,0);
+        }
+      }
 
       for(int i = 0; i < newImage.length; i++) {
         for (int j = 0; j < newImage[i].length; j++) {
@@ -264,7 +285,13 @@ public class ImageProModelImpl implements ImageProModel {
   public void vertFlip(String name, String dest) throws IllegalArgumentException {
     if (images.containsKey(name)) {
       ColorPixel[][] oldImage = images.get(name);
-      ColorPixel[][] newImage = oldImage;
+      ColorPixel [][] newImage = new ColorPixel[oldImage.length][oldImage[0].length];
+
+      for(int i = 0; i < newImage.length; i++) {
+        for (int j = 0; j < newImage[i].length; j++) {
+          newImage[i][j] = new ColorPixel(0,0,0);
+        }
+      }
 
       for(int i = 0; i < newImage.length; i++) {
         for (int j = 0; j < newImage[i].length; j++) {
@@ -282,12 +309,17 @@ public class ImageProModelImpl implements ImageProModel {
   public void brighten(int increment, String name, String dest) throws IllegalArgumentException {
     if (images.containsKey(name)) {
       ColorPixel[][] oldImage = images.get(name);
-      ColorPixel[][] newImage = oldImage;
+      ColorPixel [][] newImage = new ColorPixel[oldImage.length][oldImage[0].length];
 
       for(int i = 0; i < newImage.length; i++) {
         for (int j = 0; j < newImage[i].length; j++) {
-          ColorPixel pixel = new ColorPixel(oldImage[i][j].getR(),
-                  oldImage[i][j].getG(), oldImage[i][j].getB());
+          newImage[i][j] = new ColorPixel(0,0,0);
+        }
+      }
+
+      for(int i = 0; i < newImage.length; i++) {
+        for (int j = 0; j < newImage[i].length; j++) {
+          ColorPixel pixel = oldImage[i][j];
           newImage[i][j].setR(pixel.getR() + increment);
           newImage[i][j].setG(pixel.getG() + increment);
           newImage[i][j].setB(pixel.getB() + increment);

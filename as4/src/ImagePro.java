@@ -19,7 +19,8 @@ public class ImagePro {
     // load res/sun.ppm sun   red-component sun red   green-component sun green    blue-component sun blue      save res/red.ppm red   save res/green.ppm green   save res/blue.ppm blue        quit
     // load res/sun.ppm sun   value-component sun value   intensity-component sun intensity   luma-component sun luma      save res/value.ppm value    save res/intensity.ppm intensity    save res/luma.ppm luma       quit
     // load res/sun.ppm sun   vertical-flip sun vflip   horizontal-flip sun hflip     save res/vflip.ppm vflip    save res/hflip.ppm hflip      quit
-    // load res/sun.ppm sun    brighten 100 sun bright    brighten -100 sun dark     save res/bright.ppm bright    save res/dark.ppm dark    quit
+    // load res/sun.ppm sun    brighten 200 sun bright    brighten -200 sun dark     save res/bright.ppm bright    save res/dark.ppm dark    quit
+    // load res/sun.ppm sun    brighten -100 sun dark    save res/dark.ppm dark    quit
     // load res/sun.ppm sun   vertical-flip sun vflip   horizontal-flip sun hflip    brighten 100 sun bright    brighten -100 sun dark    save res/vflip.ppm vflip    save res/hflip.ppm hflip    save res/bright.ppm bright    save res/dark.ppm dark    quit
   }
 }
