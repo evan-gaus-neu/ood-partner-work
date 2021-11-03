@@ -150,11 +150,7 @@ public class ImageProModelImpl implements ImageProModel {
     ColorPixel [][] oldImage = images.get(name);
     ColorPixel [][] newImage = new ColorPixel[oldImage.length][oldImage[0].length];
 
-    for (int i = 0; i < newImage.length; i++) {
-      for (int j = 0; j < newImage[i].length; j++) {
-        newImage[i][j] = new ColorPixel(0,0,0);
-      }
-    }
+    newImage = arraySetUp(newImage);
 
     for (int i = 0; i < newImage.length; i++) {
       for (int j = 0; j < newImage[i].length; j++) {
@@ -200,6 +196,15 @@ public class ImageProModelImpl implements ImageProModel {
     }
     // Instead of returning
     images.put(dest, newImage);
+  }
+
+  private ColorPixel [][] arraySetUp(ColorPixel [][] newImage) {
+    for (int i = 0; i < newImage.length; i++) {
+      for (int j = 0; j < newImage[i].length; j++) {
+        newImage[i][j] = new ColorPixel(0,0,0);
+      }
+    }
+    return newImage;
   }
 
   @Override
@@ -268,11 +273,7 @@ public class ImageProModelImpl implements ImageProModel {
       ColorPixel[][] oldImage = images.get(name);
       ColorPixel [][] newImage = new ColorPixel[oldImage.length][oldImage[0].length];
 
-      for (int i = 0; i < newImage.length; i++) {
-        for (int j = 0; j < newImage[i].length; j++) {
-          newImage[i][j] = new ColorPixel(0,0,0);
-        }
-      }
+      newImage = arraySetUp(newImage);
 
       for (int i = 0; i < newImage.length; i++) {
         for (int j = 0; j < newImage[i].length; j++) {
@@ -292,11 +293,7 @@ public class ImageProModelImpl implements ImageProModel {
       ColorPixel[][] oldImage = images.get(name);
       ColorPixel [][] newImage = new ColorPixel[oldImage.length][oldImage[0].length];
 
-      for (int i = 0; i < newImage.length; i++) {
-        for (int j = 0; j < newImage[i].length; j++) {
-          newImage[i][j] = new ColorPixel(0,0,0);
-        }
-      }
+      newImage = arraySetUp(newImage);
 
       for (int i = 0; i < newImage.length; i++) {
         for (int j = 0; j < newImage[i].length; j++) {
@@ -316,11 +313,7 @@ public class ImageProModelImpl implements ImageProModel {
       ColorPixel[][] oldImage = images.get(name);
       ColorPixel [][] newImage = new ColorPixel[oldImage.length][oldImage[0].length];
 
-      for (int i = 0; i < newImage.length; i++) {
-        for (int j = 0; j < newImage[i].length; j++) {
-          newImage[i][j] = new ColorPixel(0,0,0);
-        }
-      }
+      newImage = arraySetUp(newImage);
 
       for (int i = 0; i < newImage.length; i++) {
         for (int j = 0; j < newImage[i].length; j++) {
