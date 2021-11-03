@@ -268,7 +268,7 @@ public class ImageProModelImpl implements ImageProModel {
 
       for(int i = 0; i < newImage.length; i++) {
         for (int j = 0; j < newImage[i].length; j++) {
-          newImage[i][j] = oldImage[(newImage.length) - 1 - i][j];
+          newImage[i][j] = oldImage[oldImage.length - 1 - i][j];
         }
       }
       images.put(dest, newImage);
