@@ -17,7 +17,9 @@ import view.ImageProViewImpl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-
+/**
+ * The class that contains all of the testing for the Model, View, and Controller.
+ */
 public class ImageProModelImplTest {
 
   @Test
@@ -158,7 +160,8 @@ public class ImageProModelImplTest {
   @Test
   public void contBadInput() {
     // This string is what input we are giving it
-    Reader in = new StringReader("nothing bad command    load nothing lame     brighten not-an-int something something     quit ");
+    Reader in = new StringReader("nothing bad command    load nothing lame     " +
+            "brighten not-an-int something something     quit ");
     StringBuilder out = new StringBuilder();
 
     // Set up the model, view, and controller

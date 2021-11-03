@@ -24,7 +24,7 @@ public class ImageProControllerImpl implements ImageProController {
    * @param model an ImageProModel that is used for the model field.
    * @param view an ImageProView that is used for the view field.
    * @param in a Readable that is used for getting an input.
-   * @throws IllegalArgumentException
+   * @throws IllegalArgumentException if any of the parameters are null.
    */
   public ImageProControllerImpl(ImageProModel model, ImageProView view, Readable in)
           throws IllegalArgumentException {

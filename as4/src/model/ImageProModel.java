@@ -109,7 +109,6 @@ public interface ImageProModel {
    * Creates a new image that is a brightened or
    * darkened version of this model, altered by
    * the increment given.
-   *
    * The suggested range for increment is -255 to 255,
    * because anything lower or higher than this range
    * will have the same effect as -255 or 255.
