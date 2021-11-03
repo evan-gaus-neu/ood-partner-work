@@ -1,7 +1,10 @@
 import org.junit.Test;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.Scanner;
 
 import controller.ImageProController;
 import controller.ImageProControllerImpl;
@@ -12,6 +15,7 @@ import view.ImageProView;
 import view.ImageProViewImpl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 public class ImageProModelImplTest {
@@ -36,52 +40,6 @@ public class ImageProModelImplTest {
             "Program quit. Thanks!", out.toString());
 
   }
-
-  @Test
-  public void checkAll() {
-
-    // load res/sun.ppm sun   red-component sun red   green-component sun green    blue-component sun blue   value-component sun value   intensity-component sun intensity   luma-component sun luma   vertical-flip sun vflip   horizontal-flip sun hflip    brighten 100 sun bright    brighten -100 sun dark   save res/red.ppm red   save res/green.ppm green   save res/blue.ppm blue    save res/value.ppm value    save res/intensity.ppm intensity    save res/luma.ppm luma    save res/vflip.ppm vflip    save res/hflip.ppm hflip    save res/bright.ppm bright    save res/dark.ppm dark    quit
-
-    // This string is what input we are giving it
-    Reader in = new StringReader("load res/sun.ppm sun   " +
-            "red-component sun red   " +
-            "green-component sun green    " +
-            "blue-component sun blue   " +
-            "value-component sun value   " +
-            "intensity-component sun intensity   " +
-            "luma-component sun luma   " +
-            "vertical-flip sun vflip   " +
-            "horizontal-flip sun hflip    " +
-            "brighten 100 sun bright    " +
-            "brighten -100 sun dark   " +
-            "save res/red.ppm red   " +
-            "save res/green.ppm green   " +
-            "save res/blue.ppm blue    " +
-            "save res/value.ppm value    " +
-            "save res/intensity.ppm intensity    " +
-            "save res/luma.ppm luma    " +
-            "save res/vflip.ppm vflip    " +
-            "save res/hflip.ppm hflip    " +
-            "save res/bright.ppm bright    " +
-            "save res/dark.ppm dark    " +
-            "quit");
-    StringBuilder out = new StringBuilder();
-
-    // Set up the model, view, and controller
-    ImageProModel model = new ImageProModelImpl();
-    ImageProView view = new ImageProViewImpl(model, out);
-    ImageProController controller = new ImageProControllerImpl(model, view, in);
-
-    // Run the controller
-    controller.run();
-
-    assertEquals("Welcome to the Image Processor!\n" +
-            "Type instruction: \n" +
-            "Program quit. Thanks!", out.toString());
-
-  }
-
-
 
 
   // TEST COLOR PIXEL FUNCTIONALITY =====
@@ -195,7 +153,7 @@ public class ImageProModelImplTest {
   }
 
 
-  // TEST BAD CONTROLLER INPUTS (AND THE VIEW DISPLAYING THAT THESE ARE BAD)
+  // TEST BAD CONTROLLER INPUTS (AND THE VIEW DISPLAYING THAT THESE ARE BAD) =====
 
   @Test
   public void contBadInput() {
@@ -233,7 +191,7 @@ public class ImageProModelImplTest {
   }
 
 
-  // TEST THE MODEL WITH BAD INPUT
+  // TEST THE MODEL WITH BAD INPUT =====
 
   @Test
   public void modelBadInput() {
@@ -296,9 +254,128 @@ public class ImageProModelImplTest {
   }
 
 
-  // Test bad inputs for the model commands
+  // TEST ALL OF THE CORRECT FUNCTIONALITY WITH IMAGES =====
 
-  // Test good things for all of the different commands
-  // Using a helper method to compare the images
+  @Test
+  public void checkAll() {
+
+    // Set up the check images
+    setUpCorrectImages();
+
+    // This string is what input we are giving it
+    Reader in = new StringReader("load res/sun.ppm sun   " +
+            "red-component sun red   " +
+            "green-component sun green    " +
+            "blue-component sun blue   " +
+            "value-component sun value   " +
+            "intensity-component sun intensity   " +
+            "luma-component sun luma   " +
+            "vertical-flip sun vflip   " +
+            "horizontal-flip sun hflip    " +
+            "brighten 100 sun bright    " +
+            "brighten -100 sun dark   " +
+            "save res/red.ppm red   " +
+            "save res/green.ppm green   " +
+            "save res/blue.ppm blue    " +
+            "save res/value.ppm value    " +
+            "save res/intensity.ppm intensity    " +
+            "save res/luma.ppm luma    " +
+            "save res/vflip.ppm vflip    " +
+            "save res/hflip.ppm hflip    " +
+            "save res/bright.ppm bright    " +
+            "save res/dark.ppm dark    " +
+            "quit");
+    StringBuilder out = new StringBuilder();
+
+    // Set up the model, view, and controller
+    ImageProModel model = new ImageProModelImpl();
+    ImageProView view = new ImageProViewImpl(model, out);
+    ImageProController controller = new ImageProControllerImpl(model, view, in);
+
+    // Run the controller
+    controller.run();
+
+    assertTrue(twoImagesTheSame("res/red-check.ppm","res/red.ppm"));
+    assertTrue(twoImagesTheSame("res/green-check.ppm","res/green.ppm"));
+    assertTrue(twoImagesTheSame("res/blue-check.ppm","res/blue.ppm"));
+    assertTrue(twoImagesTheSame("res/value-check.ppm","res/value.ppm"));
+    assertTrue(twoImagesTheSame("res/intensity-check.ppm","res/intensity.ppm"));
+    assertTrue(twoImagesTheSame("res/luma-check.ppm","res/luma.ppm"));
+    assertTrue(twoImagesTheSame("res/vflip-check.ppm","res/vflip.ppm"));
+    assertTrue(twoImagesTheSame("res/hflip-check.ppm","res/hflip.ppm"));
+    assertTrue(twoImagesTheSame("res/bright-check.ppm","res/bright.ppm"));
+    assertTrue(twoImagesTheSame("res/dark-check.ppm","res/dark.ppm"));
+
+  }
+
+  /**
+   * Sets up the correct images to compare other images to
+   */
+  private void setUpCorrectImages() {
+    ImageProModel model = new ImageProModelImpl();
+
+    model.loadImage("res/sun.ppm", "sun");
+    model.redComponent("sun", "red");
+    model.greenComponent("sun", "green");
+    model.blueComponent("sun", "blue");
+    model.valueComponent("sun", "value");
+    model.intensityComponent("sun", "intensity");
+    model.lumaComponent("sun", "luma");
+    model.vertFlip("sun", "vflip");
+    model.horFlip("sun", "hflip");
+    model.brighten(100, "sun", "bright");
+    model.brighten(-100, "sun", "dark");
+
+    model.saveImage("res/red-check.ppm", "red");
+    model.saveImage("res/green-check.ppm", "green");
+    model.saveImage("res/blue-check.ppm", "blue");
+    model.saveImage("res/value-check.ppm", "value");
+    model.saveImage("res/intensity-check.ppm", "intensity");
+    model.saveImage("res/luma-check.ppm", "luma");
+    model.saveImage("res/vflip-check.ppm", "vflip");
+    model.saveImage("res/hflip-check.ppm", "hflip");
+    model.saveImage("res/bright-check.ppm", "bright");
+    model.saveImage("res/dark-check.ppm", "dark");
+  }
+
+  /**
+   * Compares two files line by line to check if they're equal.
+   * @param path1 the path to the first file
+   * @param path2 the path to the second file
+   * @return boolean, true if the files were equal
+   */
+  private boolean twoImagesTheSame(String path1, String path2) {
+    // Checks if two images are the same
+
+    // ===== ===== Open file 1 ===== =====
+    // Open the file in a scanner
+    Scanner scan1;
+    try {
+      scan1 = new Scanner(new FileInputStream(path1));
+    }
+    catch (FileNotFoundException e) {
+      throw new IllegalArgumentException("File: " + path1 + " was not found");
+    }
+
+    // ===== ===== Open file 2 ===== =====
+    // Open the file in a scanner
+    Scanner scan2;
+    try {
+      scan2 = new Scanner(new FileInputStream(path2));
+    }
+    catch (FileNotFoundException e) {
+      throw new IllegalArgumentException("File: " + path2 + " was not found");
+    }
+
+    // ===== ===== Check if they're equal ===== =====
+    boolean check = true;
+    while (scan1.hasNextLine() && scan2.hasNextLine()) {
+      if (!scan1.nextLine().equals(scan2.nextLine())) {
+        check = false;
+      }
+    }
+
+    return check;
+  }
 
 }
