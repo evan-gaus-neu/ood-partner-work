@@ -312,7 +312,7 @@ public class ImageProModelImplTest {
   }
 
   /**
-   * Sets up the correct images to compare other images to
+   * Sets up the correct images to compare other images to.
    */
   private void setUpCorrectImages() {
     ImageProModel model = new ImageProModelImpl();
