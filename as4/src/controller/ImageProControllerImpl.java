@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import model.ImageProModel;
@@ -150,6 +151,9 @@ public class ImageProControllerImpl implements ImageProController {
           }
           catch (IllegalArgumentException e) {
             renderMessageHelper("Invalid: " + e.getMessage() + "\n");
+          }
+          catch (InputMismatchException e) {
+            renderMessageHelper("Invalid input for increment!\n");
           }
           break;
         case "q":
