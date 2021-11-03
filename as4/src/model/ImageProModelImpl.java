@@ -11,6 +11,10 @@ import java.util.Scanner;
 
 import data.ColorPixel;
 
+/**
+ * The class that acts as the Model for this design
+ * and is based on the interface ImageProModel.
+ */
 public class ImageProModelImpl implements ImageProModel {
 
   // Data
@@ -129,7 +133,8 @@ public class ImageProModelImpl implements ImageProModel {
 
   }
 
-  private void writeToFile(String path, int width, int height, String str) throws IllegalArgumentException {
+  private void writeToFile(String path, int width, int height, String str)
+          throws IllegalArgumentException {
     try {
       FileWriter fw = new FileWriter(path);
       fw.write("P3\n" + width + " " + height + "\n255\n" + str);
@@ -145,14 +150,14 @@ public class ImageProModelImpl implements ImageProModel {
     ColorPixel [][] oldImage = images.get(name);
     ColorPixel [][] newImage = new ColorPixel[oldImage.length][oldImage[0].length];
 
-    for(int i = 0; i < newImage.length; i++) {
+    for (int i = 0; i < newImage.length; i++) {
       for (int j = 0; j < newImage[i].length; j++) {
         newImage[i][j] = new ColorPixel(0,0,0);
       }
     }
 
-    for(int i = 0; i < newImage.length; i++) {
-      for(int j = 0; j < newImage[i].length; j++) {
+    for (int i = 0; i < newImage.length; i++) {
+      for (int j = 0; j < newImage[i].length; j++) {
 
         ColorPixel p = oldImage[i][j];
 
@@ -179,7 +184,7 @@ public class ImageProModelImpl implements ImageProModel {
           newImage[i][j].setB(max);
         }
         else if (input.equals("Intensity")) {
-          int average = (int) Math.round((p.getR() + p.getG() + p.getB())/3.0);
+          int average = (int) Math.round((p.getR() + p.getG() + p.getB()) / 3.0);
           newImage[i][j].setR(average);
           newImage[i][j].setG(average);
           newImage[i][j].setB(average);
@@ -263,13 +268,13 @@ public class ImageProModelImpl implements ImageProModel {
       ColorPixel[][] oldImage = images.get(name);
       ColorPixel [][] newImage = new ColorPixel[oldImage.length][oldImage[0].length];
 
-      for(int i = 0; i < newImage.length; i++) {
+      for (int i = 0; i < newImage.length; i++) {
         for (int j = 0; j < newImage[i].length; j++) {
           newImage[i][j] = new ColorPixel(0,0,0);
         }
       }
 
-      for(int i = 0; i < newImage.length; i++) {
+      for (int i = 0; i < newImage.length; i++) {
         for (int j = 0; j < newImage[i].length; j++) {
           newImage[i][j] = oldImage[i][(newImage[i].length) - 1 - j];
         }
@@ -287,13 +292,13 @@ public class ImageProModelImpl implements ImageProModel {
       ColorPixel[][] oldImage = images.get(name);
       ColorPixel [][] newImage = new ColorPixel[oldImage.length][oldImage[0].length];
 
-      for(int i = 0; i < newImage.length; i++) {
+      for (int i = 0; i < newImage.length; i++) {
         for (int j = 0; j < newImage[i].length; j++) {
           newImage[i][j] = new ColorPixel(0,0,0);
         }
       }
 
-      for(int i = 0; i < newImage.length; i++) {
+      for (int i = 0; i < newImage.length; i++) {
         for (int j = 0; j < newImage[i].length; j++) {
           newImage[i][j] = oldImage[oldImage.length - 1 - i][j];
         }
@@ -311,13 +316,13 @@ public class ImageProModelImpl implements ImageProModel {
       ColorPixel[][] oldImage = images.get(name);
       ColorPixel [][] newImage = new ColorPixel[oldImage.length][oldImage[0].length];
 
-      for(int i = 0; i < newImage.length; i++) {
+      for (int i = 0; i < newImage.length; i++) {
         for (int j = 0; j < newImage[i].length; j++) {
           newImage[i][j] = new ColorPixel(0,0,0);
         }
       }
 
-      for(int i = 0; i < newImage.length; i++) {
+      for (int i = 0; i < newImage.length; i++) {
         for (int j = 0; j < newImage[i].length; j++) {
           ColorPixel pixel = oldImage[i][j];
           newImage[i][j].setR(pixel.getR() + increment);
