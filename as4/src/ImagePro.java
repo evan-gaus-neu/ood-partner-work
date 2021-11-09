@@ -2,6 +2,8 @@ import java.io.InputStreamReader;
 
 import controller.ImageProController;
 import controller.ImageProControllerImpl;
+import model.IPMV2;
+import model.IPModelV2;
 import model.ImageProModel;
 import model.ImageProModelImpl;
 import view.ImageProView;
@@ -18,7 +20,7 @@ public class ImagePro {
    * @param args Command line arguments.
    */
   public static void main(String[] args) {
-    ImageProModel model = new ImageProModelImpl();
+    IPMV2 model = new IPModelV2();
     Readable rd = new InputStreamReader(System.in);
     Appendable ap = System.out;
     ImageProView view = new ImageProViewImpl(model, ap);

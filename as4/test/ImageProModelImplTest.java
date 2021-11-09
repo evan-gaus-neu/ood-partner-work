@@ -9,6 +9,8 @@ import java.util.Scanner;
 import controller.ImageProController;
 import controller.ImageProControllerImpl;
 import data.ColorPixel;
+import model.IPMV2;
+import model.IPModelV2;
 import model.ImageProModel;
 import model.ImageProModelImpl;
 import view.ImageProView;
@@ -30,7 +32,7 @@ public class ImageProModelImplTest {
     StringBuilder out = new StringBuilder();
 
     // Set up the model, view, and controller
-    ImageProModel model = new ImageProModelImpl();
+    IPMV2 model = new IPModelV2();
     ImageProView view = new ImageProViewImpl(model, out);
     ImageProController controller = new ImageProControllerImpl(model, view, in);
 
@@ -117,7 +119,7 @@ public class ImageProModelImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void viewNullOut() {
     // Set up the model, view, and controller
-    ImageProModel model = new ImageProModelImpl();
+    IPMV2 model = new IPModelV2();
     ImageProView view = new ImageProViewImpl(model, null);
   }
 
@@ -128,7 +130,7 @@ public class ImageProModelImplTest {
     StringBuilder out = new StringBuilder();
 
     // Set up the model, view, and controller
-    ImageProModel model = new ImageProModelImpl();
+    IPMV2 model = new IPModelV2();
     ImageProView view = new ImageProViewImpl(model, out);
     ImageProController controller = new ImageProControllerImpl(null, view, in);
   }
@@ -139,7 +141,7 @@ public class ImageProModelImplTest {
     Reader in = new StringReader("q");
 
     // Set up the model, view, and controller
-    ImageProModel model = new ImageProModelImpl();
+    IPMV2 model = new IPModelV2();
     ImageProController controller = new ImageProControllerImpl(model, null, in);
   }
 
@@ -149,7 +151,7 @@ public class ImageProModelImplTest {
     StringBuilder out = new StringBuilder();
 
     // Set up the model, view, and controller
-    ImageProModel model = new ImageProModelImpl();
+    IPMV2 model = new IPModelV2();
     ImageProView view = new ImageProViewImpl(model, out);
     ImageProController controller = new ImageProControllerImpl(model, view, null);
   }
@@ -165,7 +167,7 @@ public class ImageProModelImplTest {
     StringBuilder out = new StringBuilder();
 
     // Set up the model, view, and controller
-    ImageProModel model = new ImageProModelImpl();
+    IPMV2 model = new IPModelV2();
     ImageProView view = new ImageProViewImpl(model, out);
     ImageProController controller = new ImageProControllerImpl(model, view, in);
 
@@ -216,7 +218,7 @@ public class ImageProModelImplTest {
     StringBuilder out = new StringBuilder();
 
     // Set up the model, view, and controller
-    ImageProModel model = new ImageProModelImpl();
+    IPMV2 model = new IPModelV2();
     ImageProView view = new ImageProViewImpl(model, out);
     ImageProController controller = new ImageProControllerImpl(model, view, in);
 
@@ -291,7 +293,7 @@ public class ImageProModelImplTest {
     StringBuilder out = new StringBuilder();
 
     // Set up the model, view, and controller
-    ImageProModel model = new ImageProModelImpl();
+    IPMV2 model = new IPModelV2();
     ImageProView view = new ImageProViewImpl(model, out);
     ImageProController controller = new ImageProControllerImpl(model, view, in);
 
@@ -315,7 +317,7 @@ public class ImageProModelImplTest {
    * Sets up the correct images to compare other images to.
    */
 //  private void setUpCorrectImages() {
-//    ImageProModel model = new ImageProModelImpl();
+//    IPMV2 model = new IPModelV2();
 //
 //    model.loadImage("res/sun.ppm", "sun");
 //    model.redComponent("sun", "red");
@@ -398,7 +400,7 @@ public class ImageProModelImplTest {
     StringBuilder out = new StringBuilder();
 
     // Set up the model, view, and controller
-    ImageProModel model = new ImageProModelImpl();
+    IPMV2 model = new IPModelV2();
     ImageProView view = new ImageProViewImpl(model, out);
     ImageProController controller = new ImageProControllerImpl(model, view, in);
 
@@ -426,6 +428,34 @@ public class ImageProModelImplTest {
             "Image saved!\n" +
             "Type instruction: \n" +
             "Program quit. Thanks!", out.toString());
+
+  }
+
+  @Test
+  public void blurSharpenGreyscaleSepiaTest() {
+
+    // This string is what input we are giving it
+    Reader in = new StringReader("load res/sun.ppm sun     " +
+            "blur sun sun-blur     " +
+            "sharpen sun sun-sharp     " +
+            "greyscale sun sun-grey     " +
+            "sepia sun sun-sepia     " +
+            "save res/sun-blur.ppm sun-blur     " +
+            "save res/sun-sharp.ppm sun-sharp     " +
+            "save res/sun-grey.ppm sun-grey     " +
+            "save res/sun-sepia.ppm sun-sepia     " +
+            "quit");
+    StringBuilder out = new StringBuilder();
+
+    // Set up the model, view, and controller
+    IPMV2 model = new IPModelV2();
+    ImageProView view = new ImageProViewImpl(model, out);
+    ImageProController controller = new ImageProControllerImpl(model, view, in);
+
+    // Run the controller
+    controller.run();
+
+    assertEquals("", out.toString());
 
   }
 

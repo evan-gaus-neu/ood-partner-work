@@ -13,6 +13,7 @@ import java.util.Scanner;
 import javax.imageio.ImageIO;
 
 import data.ColorPixel;
+import model.IPMV2;
 import model.ImageProModel;
 import view.ImageProView;
 
@@ -23,7 +24,7 @@ import view.ImageProView;
 public class ImageProControllerImpl implements ImageProController {
 
   // Data
-  private ImageProModel model;
+  private IPMV2 model;
   private ImageProView view;
   private Readable in;
 
@@ -35,7 +36,7 @@ public class ImageProControllerImpl implements ImageProController {
    * @param in a Readable that is used for getting an input.
    * @throws IllegalArgumentException if any of the parameters are null.
    */
-  public ImageProControllerImpl(ImageProModel model, ImageProView view, Readable in)
+  public ImageProControllerImpl(IPMV2 model, ImageProView view, Readable in)
           throws IllegalArgumentException {
     if (model == null) {
       throw new IllegalArgumentException("Model was null");
@@ -174,6 +175,42 @@ public class ImageProControllerImpl implements ImageProController {
           }
           catch (InputMismatchException e) {
             renderMessageHelper("Invalid input for increment!\n");
+          }
+          break;
+        case "blur":
+          try {
+            model.blur(scan.next(), scan.next());
+            renderMessageHelper("Blurred image created!\n");
+          }
+          catch (IllegalArgumentException e) {
+            renderMessageHelper("Invalid: " + e.getMessage() + "\n");
+          }
+          break;
+        case "sharpen":
+          try {
+            model.sharpen(scan.next(), scan.next());
+            renderMessageHelper("Sharpened image created!\n");
+          }
+          catch (IllegalArgumentException e) {
+            renderMessageHelper("Invalid: " + e.getMessage() + "\n");
+          }
+          break;
+        case "greyscale":
+          try {
+            model.greyscale(scan.next(), scan.next());
+            renderMessageHelper("Greyscale image created!\n");
+          }
+          catch (IllegalArgumentException e) {
+            renderMessageHelper("Invalid: " + e.getMessage() + "\n");
+          }
+          break;
+        case "sepia":
+          try {
+            model.sepia(scan.next(), scan.next());
+            renderMessageHelper("Sepia image created!\n");
+          }
+          catch (IllegalArgumentException e) {
+            renderMessageHelper("Invalid: " + e.getMessage() + "\n");
           }
           break;
         case "q":
