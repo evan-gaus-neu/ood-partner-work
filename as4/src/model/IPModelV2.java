@@ -48,8 +48,8 @@ public class IPModelV2 extends ImageProModelImpl implements IPMV2 {
     kernelHelper();
   }
 
-  private ColorPixel[][] kernelHelper() { // QQ Not sure what we need as inputs but that we can call. Probably the image and the kernel.
-    return null;
+  private void kernelHelper(String name, String dest, Double[][] kernel) { // QQ Not sure what we need as inputs but that we can call. Probably the image and the kernel.
+
   }
 
   @Override
@@ -62,8 +62,9 @@ public class IPModelV2 extends ImageProModelImpl implements IPMV2 {
     filterHelper();
   }
 
-  private ColorPixel[][] filterHelper() { // QQ Same here, not sure about params
-    return null;
+  private void filterHelper(String name, String dest, Double[][] kernel) { // QQ Same here, not sure about params
+    // This one the kernel has to be 3x3, and it's used slightly differently
+
   }
 
 }
