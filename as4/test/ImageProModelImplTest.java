@@ -381,4 +381,53 @@ public class ImageProModelImplTest {
     return check;
   }
 
+  @Test
+  public void jpgPngGifTest() {
+
+    // This string is what input we are giving it
+    Reader in = new StringReader("load res/sun.jpg sun-jpg     " +
+            "load res/sun.png sun-png     " +
+            "load res/sun.gif sun-gif     " +
+            "vertical-flip sun-jpg sun-flip-jpg     " +
+            "vertical-flip sun-png sun-flip-png     " +
+            "vertical-flip sun-gif sun-flip-gif     " +
+            "save res/sun-flip.jpg sun-flip-jpg     " +
+            "save res/sun-flip.png sun-flip-png     " +
+            "save res/sun-flip.gif sun-flip-gif     " +
+            "quit");
+    StringBuilder out = new StringBuilder();
+
+    // Set up the model, view, and controller
+    ImageProModel model = new ImageProModelImpl();
+    ImageProView view = new ImageProViewImpl(model, out);
+    ImageProController controller = new ImageProControllerImpl(model, view, in);
+
+    // Run the controller
+    controller.run();
+
+    assertEquals("Welcome to the Image Processor!\n" +
+            "Type instruction: \n" +
+            "Image loaded!\n" +
+            "Type instruction: \n" +
+            "Image loaded!\n" +
+            "Type instruction: \n" +
+            "Image loaded!\n" +
+            "Type instruction: \n" +
+            "Vertical flip created!\n" +
+            "Type instruction: \n" +
+            "Vertical flip created!\n" +
+            "Type instruction: \n" +
+            "Vertical flip created!\n" +
+            "Type instruction: \n" +
+            "Image saved!\n" +
+            "Type instruction: \n" +
+            "Image saved!\n" +
+            "Type instruction: \n" +
+            "Image saved!\n" +
+            "Type instruction: \n" +
+            "Program quit. Thanks!", out.toString());
+
+  }
+
+
 }

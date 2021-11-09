@@ -1,5 +1,7 @@
 package controller;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -7,6 +9,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import javax.imageio.ImageIO;
 
 import data.ColorPixel;
 import model.ImageProModel;
@@ -199,17 +203,66 @@ public class ImageProControllerImpl implements ImageProController {
 
 
 
-  
 
 
 
+  // For buffered images it's x, then y
+  // For our arrays its Y then X
 
   // Loading an image stuff ===== ===== ===== ===== =====
 
+  protected void loadImage(String path, String name) throws IllegalArgumentException {
+    // This is the first handler, which figures out which type of file it is
 
+    // Check what extension it is, get just the extension
+    String extension = path.substring(path.lastIndexOf('.'));
+
+    // Call something based on the extension
+    switch(extension) {
+      case ".ppm":
+        // Call the ppm helper
+        loadPpmImage(path, name);
+      default:
+        // This is when it's like a .png or something
+        loadOtherImage(path, name);
+    }
+
+  }
+
+  // Load other image
+  protected void loadOtherImage(String path, String name) throws IllegalArgumentException {
+
+    // Get the buffered image from the path
+    BufferedImage bufferedImage;
+    try {
+      bufferedImage = ImageIO.read(new File(path));
+    }
+    catch (IOException e) {
+      throw new IllegalArgumentException("Attempt to read the file at given path failed");
+    }
+
+    // Set up the image
+    ColorPixel[][] image = new ColorPixel[bufferedImage.getHeight()][bufferedImage.getWidth()];
+
+    // Loop through the image and get the pixels
+    for (int i = 0; i < bufferedImage.getHeight(); i++) {
+      for (int k = 0; k < bufferedImage.getWidth(); k++) {
+        // Get the colors for this pixel, and set them for image
+        Color c = new Color(bufferedImage.getRGB(k, i));
+        // Make it a color pixel, then set it
+        image[i][k] = new ColorPixel(0,0,0);
+        image[i][k].setR(c.getRed());
+        image[i][k].setG(c.getGreen());
+        image[i][k].setB(c.getBlue());
+      }
+    }
+
+    // Send the image to the model
+    model.loadImage(name, image);
+  }
 
   // Load just a ppm image
-  protected void loadImage(String path, String name) throws IllegalArgumentException {
+  protected void loadPpmImage(String path, String name) throws IllegalArgumentException {
     // Open the file in a scanner
     Scanner scan;
     try {
@@ -272,9 +325,78 @@ public class ImageProControllerImpl implements ImageProController {
 
 
 
-  // Loading an image stuff ===== ===== ===== ===== =====
+  // Saving an image stuff ===== ===== ===== ===== =====
 
+  // Save image handler
   protected void saveImage(String path, String name) throws IllegalArgumentException {
+    // This is the handler, then it calls other save methods
+
+    // Find out what extension it is
+    String extension = path.substring(path.lastIndexOf('.'));
+
+    // Call something based on the extension
+    switch(extension) {
+      case ".ppm":
+        // Call the ppm helper
+        savePpmImage(path, name);
+      default:
+        // This is when it's like a .png or something
+        saveOtherImage(path, name);
+    }
+
+
+  }
+
+  protected void saveOtherImage(String path, String name) throws IllegalArgumentException {
+    // We need to create a buffered image with the dimensions necessary
+    // Then set all the pixels
+    // Then do the fancy read write stuff
+
+    // Get the pixel image
+    ColorPixel[][] image = model.saveImage(name);
+
+    // Create the image
+    BufferedImage bufferedImage = new BufferedImage(image[0].length, image.length, BufferedImage.TYPE_INT_RGB);
+
+    // Set all the pixels of the image
+    for (int i = 0; i < image.length; i++) {
+      for (int k = 0; k < image[i].length; k++) {
+        // Get the colors of the pixels
+        int r = image[i][k].getR();
+        int g = image[i][k].getG();
+        int b = image[i][k].getB();
+
+        // Create a color from the pixel
+        Color c = new Color(r, g, b);
+
+        // Set that
+        bufferedImage.setRGB(k, i, c.getRGB());
+      }
+    }
+
+    String extension;
+
+    try {
+      extension = path.substring(path.lastIndexOf('.') + 1);
+    }
+    catch (IndexOutOfBoundsException e) {
+      throw new IllegalArgumentException("Invalid file extension");
+    }
+
+
+    // Write the file
+    try {
+      File outputFile = new File(path);
+      ImageIO.write(bufferedImage, extension, outputFile);
+    }
+    catch (IOException e) {
+      throw new IllegalArgumentException("Unable to write to the file at the given path");
+    }
+
+  }
+
+  // Save a ppm image
+  protected void savePpmImage(String path, String name) throws IllegalArgumentException {
 
     // Get the image from the model
     ColorPixel [][] image = model.saveImage(name);
