@@ -193,4 +193,30 @@ public class ImageProControllerImpl implements ImageProController {
     }
   }
 
+  private void neverUsed() {
+//    // Need to rewrite
+//
+//    /**
+//     * Updated version of the loadImage command to support conventional file formats.
+//     * @param path the path of the image
+//     * @param name the name of the image
+//     * @throws IllegalArgumentException
+//     */
+//    @Override
+//    public void loadImage(String path, String name) throws IllegalArgumentException {
+//
+//    }
+//
+//    /**
+//     * Updated version of the saveImage command to support conventional file formats.
+//     * @param path the path of the newly saved image
+//     * @param name the name of the image to be saved
+//     * @throws IllegalArgumentException
+//     */
+//    @Override
+//    public void saveImage(String path, String name) throws IllegalArgumentException {
+//
+//    }
+  }
+
 }
