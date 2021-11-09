@@ -1,9 +1,14 @@
 package controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import data.ColorPixel;
 import model.ImageProModel;
 import view.ImageProView;
 
@@ -67,7 +72,7 @@ public class ImageProControllerImpl implements ImageProController {
       switch (userInput) {
         case "load": // load image
           try {
-            model.loadImage(scan.next(), scan.next());
+            loadImage(scan.next(), scan.next());
             renderMessageHelper("Image loaded!\n");
           }
           catch (IllegalArgumentException e) {
@@ -76,7 +81,7 @@ public class ImageProControllerImpl implements ImageProController {
           break;
         case "save": // save image
           try {
-            model.saveImage(scan.next(), scan.next());
+            saveImage(scan.next(), scan.next());
             renderMessageHelper("Image saved!\n");
           }
           catch (IllegalArgumentException e) {
@@ -176,11 +181,7 @@ public class ImageProControllerImpl implements ImageProController {
           renderMessageHelper("Unrecognized Command: " + userInput + "\n");
       }
 
-
-
-
     }
-
 
   }
 
@@ -193,30 +194,142 @@ public class ImageProControllerImpl implements ImageProController {
     }
   }
 
-  private void neverUsed() {
-//    // Need to rewrite
-//
-//    /**
-//     * Updated version of the loadImage command to support conventional file formats.
-//     * @param path the path of the image
-//     * @param name the name of the image
-//     * @throws IllegalArgumentException
-//     */
-//    @Override
-//    public void loadImage(String path, String name) throws IllegalArgumentException {
-//
-//    }
-//
-//    /**
-//     * Updated version of the saveImage command to support conventional file formats.
-//     * @param path the path of the newly saved image
-//     * @param name the name of the image to be saved
-//     * @throws IllegalArgumentException
-//     */
-//    @Override
-//    public void saveImage(String path, String name) throws IllegalArgumentException {
-//
-//    }
+
+
+
+
+
+  
+
+
+
+
+  // Loading an image stuff ===== ===== ===== ===== =====
+
+
+
+  // Load just a ppm image
+  protected void loadImage(String path, String name) throws IllegalArgumentException {
+    // Open the file in a scanner
+    Scanner scan;
+    try {
+      scan = new Scanner(new FileInputStream(path));
+    }
+    catch (FileNotFoundException e) {
+      throw new IllegalArgumentException("File: " + path + " was not found");
+    }
+
+    // Populate it ignoring comments
+    StringBuilder sb = new StringBuilder();
+    while (scan.hasNextLine()) {
+      String st = scan.nextLine();
+      if (st.length() > 0) {
+        if (st.charAt(0) != '#') {
+          sb.append(st + "\n");
+        }
+      }
+
+    }
+
+    // Now make the scanner read from the string we just built
+    scan = new Scanner(sb.toString());
+
+    // Check stuff
+    String type = scan.next();
+    if (!type.equals("P3")) {
+      throw new IllegalArgumentException("Invalid PPM: Valid PPM should start with P3");
+    }
+
+    // Get info
+    int width = scan.nextInt();
+    int height = scan.nextInt();
+    int maxValue = scan.nextInt();
+
+    // Create the image array
+    ColorPixel[][] image = new ColorPixel[height][width];
+
+    // Populate the image array
+    for (int i = 0; i < height; i++) {
+      for (int k = 0; k < width; k++) {
+        // Get the color
+        int r = scan.nextInt();
+        int g = scan.nextInt();
+        int b = scan.nextInt();
+        // Set the color
+        image[i][k] = new ColorPixel(r, g, b);
+      }
+    }
+
+    // Send the image to the model
+    model.loadImage(name, image);
+
+  }
+
+
+
+
+
+
+
+
+  // Loading an image stuff ===== ===== ===== ===== =====
+
+  protected void saveImage(String path, String name) throws IllegalArgumentException {
+
+    // Get the image from the model
+    ColorPixel [][] image = model.saveImage(name);
+
+    // Get the image as a string
+    String str = "";
+    for (int i = 0; i < image.length; i++) {
+      for (int k = 0; k < image[i].length; k++) {
+        // Add this pixel
+        ColorPixel cp = image[i][k];
+        str += cp.getR() + "\n";
+        str += cp.getG() + "\n";
+        str += cp.getB() + "\n";
+      }
+    }
+
+    // Create a new file
+    try {
+      File newFile = new File(path);
+      if (newFile.createNewFile()) {
+        // Created a new file
+        try {
+          writeToFile(path, image[0].length, image.length, str);
+        }
+        catch (IllegalArgumentException e) {
+          throw e;
+        }
+      }
+      else {
+        // File was already there
+        try {
+          writeToFile(path, image[0].length, image.length, str);
+        }
+        catch (IllegalArgumentException e) {
+          throw e;
+        }
+      }
+    }
+    catch (IOException e) {
+      throw new IllegalArgumentException("New file could not be created");
+    }
+
+  }
+
+  protected void writeToFile(String path, int width, int height, String str)
+          throws IllegalArgumentException {
+    try {
+      FileWriter fw = new FileWriter(path);
+      fw.write("P3\n" + width + " " + height + "\n255\n" + str);
+      fw.close();
+      // Successfully wrote the file
+    }
+    catch (IOException e) {
+      throw new IllegalArgumentException("File write failed");
+    }
   }
 
 }

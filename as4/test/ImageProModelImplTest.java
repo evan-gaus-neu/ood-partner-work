@@ -263,7 +263,7 @@ public class ImageProModelImplTest {
   public void checkAll() {
 
     // Set up the check images
-    setUpCorrectImages();
+    // setUpCorrectImages();
 
     // This string is what input we are giving it
     Reader in = new StringReader("load res/sun.ppm sun   " +
@@ -314,32 +314,32 @@ public class ImageProModelImplTest {
   /**
    * Sets up the correct images to compare other images to.
    */
-  private void setUpCorrectImages() {
-    ImageProModel model = new ImageProModelImpl();
-
-    model.loadImage("res/sun.ppm", "sun");
-    model.redComponent("sun", "red");
-    model.greenComponent("sun", "green");
-    model.blueComponent("sun", "blue");
-    model.valueComponent("sun", "value");
-    model.intensityComponent("sun", "intensity");
-    model.lumaComponent("sun", "luma");
-    model.vertFlip("sun", "vflip");
-    model.horFlip("sun", "hflip");
-    model.brighten(100, "sun", "bright");
-    model.brighten(-100, "sun", "dark");
-
-    model.saveImage("res/red-check.ppm", "red");
-    model.saveImage("res/green-check.ppm", "green");
-    model.saveImage("res/blue-check.ppm", "blue");
-    model.saveImage("res/value-check.ppm", "value");
-    model.saveImage("res/intensity-check.ppm", "intensity");
-    model.saveImage("res/luma-check.ppm", "luma");
-    model.saveImage("res/vflip-check.ppm", "vflip");
-    model.saveImage("res/hflip-check.ppm", "hflip");
-    model.saveImage("res/bright-check.ppm", "bright");
-    model.saveImage("res/dark-check.ppm", "dark");
-  }
+//  private void setUpCorrectImages() {
+//    ImageProModel model = new ImageProModelImpl();
+//
+//    model.loadImage("res/sun.ppm", "sun");
+//    model.redComponent("sun", "red");
+//    model.greenComponent("sun", "green");
+//    model.blueComponent("sun", "blue");
+//    model.valueComponent("sun", "value");
+//    model.intensityComponent("sun", "intensity");
+//    model.lumaComponent("sun", "luma");
+//    model.vertFlip("sun", "vflip");
+//    model.horFlip("sun", "hflip");
+//    model.brighten(100, "sun", "bright");
+//    model.brighten(-100, "sun", "dark");
+//
+//    model.saveImage("res/red-check.ppm", "red");
+//    model.saveImage("res/green-check.ppm", "green");
+//    model.saveImage("res/blue-check.ppm", "blue");
+//    model.saveImage("res/value-check.ppm", "value");
+//    model.saveImage("res/intensity-check.ppm", "intensity");
+//    model.saveImage("res/luma-check.ppm", "luma");
+//    model.saveImage("res/vflip-check.ppm", "vflip");
+//    model.saveImage("res/hflip-check.ppm", "hflip");
+//    model.saveImage("res/bright-check.ppm", "bright");
+//    model.saveImage("res/dark-check.ppm", "dark");
+//  }
 
   /**
    * Compares two files line by line to check if they're equal.

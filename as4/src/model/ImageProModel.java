@@ -1,5 +1,7 @@
 package model;
 
+import data.ColorPixel;
+
 /**
  * This interface represents operations that an image
  * processing program would complete.
@@ -8,21 +10,19 @@ public interface ImageProModel {
 
   /**
    * Loads a ppm image from the given path into the model.
-   * @param path the path of the image
    * @param name the name of the image
-   * @throws IllegalArgumentException if the path doesn't refer to a valid image
+   * @param image the image to load into the system
    */
-  void loadImage(String path, String name) throws IllegalArgumentException;
+  void loadImage(String name, ColorPixel[][] image);
 
 
   /**
-   * Saves the image represented by the given name to the given path.
-   * @param path the path of the newly saved image
+   * Returns the image of the given name, so that it can be saved
    * @param name the name of the image to be saved
    * @throws IllegalArgumentException if the name of the image to be saved
    *                                  doesn't exist in the map of images
    */
-  void saveImage(String path, String name) throws IllegalArgumentException;
+  ColorPixel[][] saveImage(String name) throws IllegalArgumentException;
 
 
   /**
