@@ -79,6 +79,7 @@ public class IPModelV2 extends ImageProModelImpl implements IPMV2 {
         }
         yCor++;
       }
+      yCor = 0;
       xCor++;
     }
     int finalVal = (int) Math.round(tempVal);
