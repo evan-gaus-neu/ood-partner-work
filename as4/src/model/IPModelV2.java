@@ -65,8 +65,8 @@ public class IPModelV2 extends ImageProModelImpl implements IPMV2 {
     int xCor = 0;
     int yCor = 0;
     for (int i = x - kernel.length/2; i < kernel.length + (x - kernel.length/2); i++) {
-      for (int j = y - kernel.length/2; j < kernel.length + (y - kernel.length/2); j++) {
-        if (!(i < 0 || i >= givenImage.length || j < 0 || j >= givenImage.length)) {
+      for (int j = y - kernel.length/2; j < kernel[0].length + (y - kernel.length/2); j++) {
+        if (!(i < 0 || i >= givenImage.length || j < 0 || j >= givenImage[0].length)) {
           if (str.equals("Red")) {
             tempVal += kernel[xCor][yCor] * givenImage[i][j].getR();
           }

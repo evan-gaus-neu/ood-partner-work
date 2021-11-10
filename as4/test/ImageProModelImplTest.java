@@ -455,7 +455,27 @@ public class ImageProModelImplTest {
     // Run the controller
     controller.run();
 
-    assertEquals("", out.toString());
+    assertEquals("Welcome to the Image Processor!\n" +
+            "Type instruction: \n" +
+            "Image loaded!\n" +
+            "Type instruction: \n" +
+            "Blurred image created!\n" +
+            "Type instruction: \n" +
+            "Sharpened image created!\n" +
+            "Type instruction: \n" +
+            "Greyscale image created!\n" +
+            "Type instruction: \n" +
+            "Sepia image created!\n" +
+            "Type instruction: \n" +
+            "Image saved!\n" +
+            "Type instruction: \n" +
+            "Image saved!\n" +
+            "Type instruction: \n" +
+            "Image saved!\n" +
+            "Type instruction: \n" +
+            "Image saved!\n" +
+            "Type instruction: \n" +
+            "Program quit. Thanks!", out.toString());
 
   }
 
