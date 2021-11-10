@@ -1,7 +1,6 @@
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.StringReader;
 import java.util.Scanner;
 
@@ -9,8 +8,6 @@ import controller.ImageProController;
 import controller.ImageProControllerImpl;
 import model.IPMV2;
 import model.IPModelV2;
-import model.ImageProModel;
-import model.ImageProModelImpl;
 import view.ImageProView;
 import view.ImageProViewImpl;
 

@@ -2,6 +2,10 @@ package model;
 
 import data.ColorPixel;
 
+/**
+ * The class that acts as the modified Model for this design
+ * and is based on the interface ImageProModel. It contains the newer image filters.
+ */
 public class IPModelV2 extends ImageProModelImpl implements IPMV2 {
 
   /**
@@ -33,7 +37,7 @@ public class IPModelV2 extends ImageProModelImpl implements IPMV2 {
     kernelHelper(name, dest, kernel);
   }
 
-  private void kernelHelper(String name, String dest, Double[][] kernel) { // QQ Not sure what we need as inputs but that we can call. Probably the image and the kernel.
+  private void kernelHelper(String name, String dest, Double[][] kernel) {
     ColorPixel[][] oldImage = images.get(name);
     ColorPixel [][] newImage = new ColorPixel[oldImage.length][oldImage[0].length];
 
@@ -64,8 +68,8 @@ public class IPModelV2 extends ImageProModelImpl implements IPMV2 {
     double tempVal = 0.0;
     int xCor = 0;
     int yCor = 0;
-    for (int i = x - kernel.length/2; i < kernel.length + (x - kernel.length/2); i++) {
-      for (int j = y - kernel.length/2; j < kernel[0].length + (y - kernel.length/2); j++) {
+    for (int i = x - kernel.length / 2; i < kernel.length + (x - kernel.length / 2); i++) {
+      for (int j = y - kernel.length / 2; j < kernel[0].length + (y - kernel.length / 2); j++) {
         if (!(i < 0 || i >= givenImage.length || j < 0 || j >= givenImage[0].length)) {
           if (str.equals("Red")) {
             tempVal += kernel[xCor][yCor] * givenImage[i][j].getR();
@@ -113,7 +117,7 @@ public class IPModelV2 extends ImageProModelImpl implements IPMV2 {
     filterHelper(name, dest, kernel);
   }
 
-  private void filterHelper(String name, String dest, Double[][] kernel) { // QQ Same here, not sure about params
+  private void filterHelper(String name, String dest, Double[][] kernel) {
     ColorPixel[][] oldImage = images.get(name);
     ColorPixel [][] newImage = new ColorPixel[oldImage.length][oldImage[0].length];
 

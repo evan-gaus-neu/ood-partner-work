@@ -1,6 +1,6 @@
 package controller;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,7 +14,6 @@ import javax.imageio.ImageIO;
 
 import data.ColorPixel;
 import model.IPMV2;
-import model.ImageProModel;
 import view.ImageProView;
 
 /**
@@ -255,7 +254,7 @@ public class ImageProControllerImpl implements ImageProController {
     String extension = path.substring(path.lastIndexOf('.'));
 
     // Call something based on the extension
-    switch(extension) {
+    switch (extension) {
       case ".ppm":
         // Call the ppm helper
         loadPpmImage(path, name);
@@ -373,7 +372,7 @@ public class ImageProControllerImpl implements ImageProController {
     String extension = path.substring(path.lastIndexOf('.'));
 
     // Call something based on the extension
-    switch(extension) {
+    switch (extension) {
       case ".ppm":
         // Call the ppm helper
         savePpmImage(path, name);
@@ -395,7 +394,8 @@ public class ImageProControllerImpl implements ImageProController {
     ColorPixel[][] image = model.saveImage(name);
 
     // Create the image
-    BufferedImage bufferedImage = new BufferedImage(image[0].length, image.length, BufferedImage.TYPE_INT_RGB);
+    BufferedImage bufferedImage = new BufferedImage(image[0].length, image.length,
+            BufferedImage.TYPE_INT_RGB);
 
     // Set all the pixels of the image
     for (int i = 0; i < image.length; i++) {

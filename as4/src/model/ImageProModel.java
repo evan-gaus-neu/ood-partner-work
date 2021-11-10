@@ -17,7 +17,7 @@ public interface ImageProModel {
 
 
   /**
-   * Returns the image of the given name, so that it can be saved
+   * Returns the image of the given name, so that it can be saved.
    * @param name the name of the image to be saved
    * @throws IllegalArgumentException if the name of the image to be saved
    *                                  doesn't exist in the map of images
