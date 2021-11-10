@@ -24,64 +24,51 @@ Finally, the controller uses a switch to handle all user input,
 and make calls to the model.
 
 
-------------------
-Script of Commands
-------------------
-load <image-path> <image-name>
-    - Loads an image into the processor to be used for
-    other functions, at the given path and with the
-    given name
+===== NEW FOR ASSIGNMENT #5 =====
 
-save <image-path> <image-name>
-    - Saves an image from the processor with the given
-    name, to the given path
+Per feedback we received on assignment 4, we moved the input
+output control (the load and save image commands) to the controller.
 
-red-component <image-name> <destination-image-name>
-    - Creates a red component grayscale image of the
-    given image name, and saves it as a new image with
-    the destination image name
+The load and save methods were also changed in order to include
+functionality for conventional image files. The loadImage method now
+acts as a handler, if the path is a .ppm, it calls the ppm helper,
+if not, it calls the conventional load image helper. Similarly, the
+saveImage method acts as a handler, calling the ppm save method if
+the path is .ppm, and the conventional image save method if it's
+not a ppm. All of this input and output of files happens in the
+controller, per the feedback we received on the previous assignment.
 
-green-component <image-name> <destination-image-name>
-    - Creates a green component grayscale image of the
-    given image name, and saves it as a new image with
-    the destination image name
+The main method is now changed so that if the program is run with
+arguments, it checks if they're in the correct format, and can open
+a script text file and run those commands, before closing the
+program. (if the program is run with no arguments, the program runs
+like before, with System in and out as inputs and outputs)
 
-blue-component <image-name> <destination-image-name>
-    - Creates a blue component grayscale image of the
-    given image name, and saves it as a new image with
-    the destination image name
+We extended the model interface (IPMV2.java) and created an
+implementation (IPModelV2.java) of that new interface that extends
+the old model implementation. This adds the functionality for blue,
+sharpen, greyscale, and sepia.
 
-value-component <image-name> <destination-image-name>
-    - Creates a value component grayscale image of the
-    given image name, and saves it as a new image with
-    the destination image name
+The code we wrote for these methods would allow us to easily add
+new filtering methods. For blur and sharpen, we created a helper
+method that takes in a kernel and the image (the kernel being an
+array of double), and the helper then uses the kernel to generate
+a new image (and store it in the map). This way, we don't have to
+write duplicated code for blur and sharpen, and we just call the
+helper with a different kernel.
 
-intensity-component <image-name> <destination-image-name>
-    - Creates an intensity component grayscale image of
-    the given image name, and saves it as a new image
-    with the destination image name
+Similarly, for greyscale and sepia, we used the same design
+strategy: a helper with a kernel. The kernel is a 3x3 array of
+double that represents how we filter the image. The helper then
+uses the kernel and the original image to generate the newly
+filtered image, with no duplication.
 
-luma-component <image-name> <destination-image-name>
-    - Creates a luma component grayscale image of the
-    given image name, and saves it as a new image with
-    the destination image name
+Added functionality was also added to the controller to allow
+users to call blur, sharpen, greyscale, and sepia as commands.
+Because of our previous implementation, this was as simple as
+adding cases to the switch for user input.
 
-horizontal-flip <image-name> <destination-image-name>
-    - Creates a horizontal flip of the given image name,
-    and saves it as a new image with the destination
-    image name
 
-vertical-flip <image-name> <destination-image-name>
-    - Creates a vertical flip of the given image name,
-    and saves it as a new image with the destination
-    image name
-
-brighten <increment> <image-name> <destination-image-name>
-    - Creates a brighter or darker image by the
-    increment given (negative for darker, positive
-    value for brighter) of the given image name,
-    and saves the new image at the destination
-    image name
 
 
 ------------------
@@ -89,4 +76,4 @@ Picture Citation
 ------------------
 The beach image was taken from pixabay.com
 The exact url is the following:https://pixabay.com/photos/sunset-beach-sea-waves-shore-sand-6387462/
-It was downloaded in a .jpg format and was converted to ppm using a GIMP, a free image processing program.
+It was downloaded in a .jpg format and was converted to ppm (and other formats) using a GIMP, a free image processing program.
