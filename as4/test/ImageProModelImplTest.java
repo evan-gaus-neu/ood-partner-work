@@ -11,8 +11,6 @@ import controller.ImageProControllerImpl;
 import data.ColorPixel;
 import model.IPMV2;
 import model.IPModelV2;
-import model.ImageProModel;
-import model.ImageProModelImpl;
 import view.ImageProView;
 import view.ImageProViewImpl;
 
@@ -163,7 +161,8 @@ public class ImageProModelImplTest {
   public void contBadInput() {
     // This string is what input we are giving it
     Reader in = new StringReader("nothing bad command    load nothing lame     " +
-            "brighten not-an-int something something     quit ");
+            "load nothing.txt dne     load res/nothing.jpg bad       " +
+            "load brighten not-an-int something something     quit ");
     StringBuilder out = new StringBuilder();
 
     // Set up the model, view, and controller
@@ -182,11 +181,13 @@ public class ImageProModelImplTest {
             "Type instruction: \n" +
             "Unrecognized Command: command\n" +
             "Type instruction: \n" +
-            "Invalid: File: nothing was not found\n" +
+            "Invalid: Invalid path, no file extension found\n" +
             "Type instruction: \n" +
-            "Invalid input for increment!\n" +
+            "Invalid: Attempt to read the file at given path failed\n" +
             "Type instruction: \n" +
-            "Unrecognized Command: not-an-int\n" +
+            "Invalid: Attempt to read the file at given path failed\n" +
+            "Type instruction: \n" +
+            "Invalid: Invalid path, no file extension found\n" +
             "Type instruction: \n" +
             "Unrecognized Command: something\n" +
             "Type instruction: \n" +
@@ -213,6 +214,10 @@ public class ImageProModelImplTest {
             "brighten 100 dne bright    " +
             "brighten -100 dne dark    " +
             "brighten not-int    " +
+            "blur dne blur   " +
+            "sharpen dne sharp   " +
+            "greyscale dne grey   " +
+            "sepia dne sepia   " +
             "save res/file.ppm dne   " +
             "quit");
     StringBuilder out = new StringBuilder();
@@ -255,6 +260,14 @@ public class ImageProModelImplTest {
             "Type instruction: \n" +
             "Invalid: Given name didn't correspond to an image\n" +
             "Type instruction: \n" +
+            "Invalid: Given name didn't correspond to an image\n" +
+            "Type instruction: \n" +
+            "Invalid: Given name didn't correspond to an image\n" +
+            "Type instruction: \n" +
+            "Invalid: Given name didn't correspond to an image\n" +
+            "Type instruction: \n" +
+            "Invalid: Given name didn't correspond to an image\n" +
+            "Type instruction: \n" +
             "Program quit. Thanks!", out.toString());
   }
 
@@ -265,7 +278,7 @@ public class ImageProModelImplTest {
   public void checkAll() {
 
     // Set up the check images
-    // setUpCorrectImages();
+    setUpCorrectImages();
 
     // This string is what input we are giving it
     Reader in = new StringReader("load res/sun.ppm sun   " +
@@ -279,6 +292,10 @@ public class ImageProModelImplTest {
             "horizontal-flip sun hflip    " +
             "brighten 100 sun bright    " +
             "brighten -100 sun dark   " +
+            "blur sun blur   " +
+            "sharpen sun sharp   " +
+            "greyscale sun grey   " +
+            "sepia sun sepia   " +
             "save res/red.ppm red   " +
             "save res/green.ppm green   " +
             "save res/blue.ppm blue    " +
@@ -289,6 +306,10 @@ public class ImageProModelImplTest {
             "save res/hflip.ppm hflip    " +
             "save res/bright.ppm bright    " +
             "save res/dark.ppm dark    " +
+            "save res/blur.ppm blur   " +
+            "save res/sharp.ppm sharp   " +
+            "save res/grey.ppm grey   " +
+            "save res/sepia.ppm sepia   " +
             "quit");
     StringBuilder out = new StringBuilder();
 
@@ -310,38 +331,60 @@ public class ImageProModelImplTest {
     assertTrue(twoImagesTheSame("res/hflip-check.ppm","res/hflip.ppm"));
     assertTrue(twoImagesTheSame("res/bright-check.ppm","res/bright.ppm"));
     assertTrue(twoImagesTheSame("res/dark-check.ppm","res/dark.ppm"));
+    assertTrue(twoImagesTheSame("res/blur-check.ppm","res/blur.ppm"));
+    assertTrue(twoImagesTheSame("res/sharp-check.ppm","res/sharp.ppm"));
+    assertTrue(twoImagesTheSame("res/grey-check.ppm","res/grey.ppm"));
+    assertTrue(twoImagesTheSame("res/sepia-check.ppm","res/sepia.ppm"));
 
   }
 
   /**
    * Sets up the correct images to compare other images to.
    */
-//  private void setUpCorrectImages() {
-//    IPMV2 model = new IPModelV2();
-//
-//    model.loadImage("res/sun.ppm", "sun");
-//    model.redComponent("sun", "red");
-//    model.greenComponent("sun", "green");
-//    model.blueComponent("sun", "blue");
-//    model.valueComponent("sun", "value");
-//    model.intensityComponent("sun", "intensity");
-//    model.lumaComponent("sun", "luma");
-//    model.vertFlip("sun", "vflip");
-//    model.horFlip("sun", "hflip");
-//    model.brighten(100, "sun", "bright");
-//    model.brighten(-100, "sun", "dark");
-//
-//    model.saveImage("res/red-check.ppm", "red");
-//    model.saveImage("res/green-check.ppm", "green");
-//    model.saveImage("res/blue-check.ppm", "blue");
-//    model.saveImage("res/value-check.ppm", "value");
-//    model.saveImage("res/intensity-check.ppm", "intensity");
-//    model.saveImage("res/luma-check.ppm", "luma");
-//    model.saveImage("res/vflip-check.ppm", "vflip");
-//    model.saveImage("res/hflip-check.ppm", "hflip");
-//    model.saveImage("res/bright-check.ppm", "bright");
-//    model.saveImage("res/dark-check.ppm", "dark");
-//  }
+  private void setUpCorrectImages() {
+    // This string is what input we are giving it
+    Reader in = new StringReader("load res/sun.ppm sun   " +
+            "red-component sun red   " +
+            "green-component sun green    " +
+            "blue-component sun blue   " +
+            "value-component sun value   " +
+            "intensity-component sun intensity   " +
+            "luma-component sun luma   " +
+            "vertical-flip sun vflip   " +
+            "horizontal-flip sun hflip    " +
+            "brighten 100 sun bright    " +
+            "brighten -100 sun dark   " +
+            "blur sun blur   " +
+            "sharpen sun sharp   " +
+            "greyscale sun grey   " +
+            "sepia sun sepia   " +
+            "save res/red-check.ppm red   " +
+            "save res/green-check.ppm green   " +
+            "save res/blue-check.ppm blue    " +
+            "save res/value-check.ppm value    " +
+            "save res/intensity-check.ppm intensity    " +
+            "save res/luma-check.ppm luma    " +
+            "save res/vflip-check.ppm vflip    " +
+            "save res/hflip-check.ppm hflip    " +
+            "save res/bright-check.ppm bright    " +
+            "save res/dark-check.ppm dark    " +
+            "save res/blur-check.ppm blur   " +
+            "save res/sharp-check.ppm sharp   " +
+            "save res/grey-check.ppm grey   " +
+            "save res/sepia-check.ppm sepia   " +
+            "quit");
+    StringBuilder out = new StringBuilder();
+    // Set up the model, view, and controller
+    IPMV2 model = new IPModelV2();
+    ImageProView view = new ImageProViewImpl(model, out);
+    ImageProController controller = new ImageProControllerImpl(model, view, in);
+    // Run the controller
+    controller.run();
+
+    // Because we moved the loading functionality to the controller
+    // (per your feedback) our only option to open images, and create
+    // these check images is to open them (and save them) using the controller
+  }
 
   /**
    * Compares two files line by line to check if they're equal.

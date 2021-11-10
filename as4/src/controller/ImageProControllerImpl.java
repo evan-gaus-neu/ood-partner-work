@@ -251,17 +251,17 @@ public class ImageProControllerImpl implements ImageProController {
     // This is the first handler, which figures out which type of file it is
 
     // Check what extension it is, get just the extension
+    if (path.lastIndexOf('.') < 0) {
+      throw new IllegalArgumentException("Invalid path, no file extension found");
+    }
     String extension = path.substring(path.lastIndexOf('.'));
 
     // Call something based on the extension
-    switch (extension) {
-      case ".ppm":
-        // Call the ppm helper
-        loadPpmImage(path, name);
-        break;
-      default:
-        // This is when it's like a .png or something
-        loadOtherImage(path, name);
+    if (extension.equals(".ppm")) {
+      loadPpmImage(path, name);
+    }
+    else {
+      loadOtherImage(path, name);
     }
 
   }
@@ -372,16 +372,12 @@ public class ImageProControllerImpl implements ImageProController {
     String extension = path.substring(path.lastIndexOf('.'));
 
     // Call something based on the extension
-    switch (extension) {
-      case ".ppm":
-        // Call the ppm helper
-        savePpmImage(path, name);
-        break;
-      default:
-        // This is when it's like a .png or something
-        saveOtherImage(path, name);
+    if (extension.equals(".ppm")) {
+      savePpmImage(path, name);
     }
-
+    else {
+      saveOtherImage(path, name);
+    }
 
   }
 

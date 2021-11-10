@@ -1,7 +1,0 @@
-load res/sun.png sun
-blur sun sun
-blur sun sun
-blur sun sun
-blur sun sun
-save res/sun-very-blur.jpg sun
-q

@@ -23,7 +23,12 @@ public class IPModelV2 extends ImageProModelImpl implements IPMV2 {
             {0.0625, 0.125, 0.0625},
             {0.125, 0.25, 0.125},
             {0.0625, 0.125, 0.0625}};
-    kernelHelper(name, dest, kernel);
+    if (images.containsKey(name)) {
+      kernelHelper(name, dest, kernel);
+    }
+    else {
+      throw new IllegalArgumentException("Given name didn't correspond to an image");
+    }
   }
 
   @Override
@@ -34,7 +39,12 @@ public class IPModelV2 extends ImageProModelImpl implements IPMV2 {
             {-0.125, 0.25, 1.0, 0.25, -0.125},
             {-0.125, 0.25, 0.25, 0.25, -0.125},
             {-0.125, -0.125, -0.125, -0.125, -0.125}};
-    kernelHelper(name, dest, kernel);
+    if (images.containsKey(name)) {
+      kernelHelper(name, dest, kernel);
+    }
+    else {
+      throw new IllegalArgumentException("Given name didn't correspond to an image");
+    }
   }
 
   private void kernelHelper(String name, String dest, Double[][] kernel) {
@@ -105,7 +115,13 @@ public class IPModelV2 extends ImageProModelImpl implements IPMV2 {
             {0.2126, 0.7152, 0.0722},
             {0.2126, 0.7152, 0.0722},
             {0.2126, 0.7152, 0.0722}};
-    filterHelper(name, dest, kernel);
+    if (images.containsKey(name)) {
+      filterHelper(name, dest, kernel);
+    }
+    else {
+      throw new IllegalArgumentException("Given name didn't correspond to an image");
+    }
+
   }
 
   @Override
@@ -114,7 +130,12 @@ public class IPModelV2 extends ImageProModelImpl implements IPMV2 {
             {0.393, 0.769, 0.189},
             {0.349, 0.686, 0.168},
             {0.272, 0.534, 0.131}};
-    filterHelper(name, dest, kernel);
+    if (images.containsKey(name)) {
+      filterHelper(name, dest, kernel);
+    }
+    else {
+      throw new IllegalArgumentException("Given name didn't correspond to an image");
+    }
   }
 
   private void filterHelper(String name, String dest, Double[][] kernel) {
