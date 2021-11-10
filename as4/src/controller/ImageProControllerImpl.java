@@ -259,6 +259,7 @@ public class ImageProControllerImpl implements ImageProController {
       case ".ppm":
         // Call the ppm helper
         loadPpmImage(path, name);
+        break;
       default:
         // This is when it's like a .png or something
         loadOtherImage(path, name);
@@ -376,6 +377,7 @@ public class ImageProControllerImpl implements ImageProController {
       case ".ppm":
         // Call the ppm helper
         savePpmImage(path, name);
+        break;
       default:
         // This is when it's like a .png or something
         saveOtherImage(path, name);
