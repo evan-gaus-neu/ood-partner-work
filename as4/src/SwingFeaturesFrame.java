@@ -85,6 +85,7 @@ public class SwingFeaturesFrame extends JFrame implements ActionListener, ItemLi
 
     //password fields
 
+
     JPanel pPanel = new JPanel();
     pPanel.setBorder(BorderFactory.createTitledBorder("Using Password fields"));
     mainPanel.add(pPanel);

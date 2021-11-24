@@ -25,6 +25,7 @@ public class SwingFeatures {
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setVisible(true);
 
+
     try {
       // Set cross-platform Java L&F (also called "Metal")
       UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
