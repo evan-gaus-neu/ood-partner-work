@@ -12,6 +12,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
+import org.jfree.chart.*;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -41,7 +43,7 @@ public class SwingFrame extends JFrame implements ActionListener, ItemListener, 
     // Set up the basics
     super();
     setTitle("ImagePro");
-    setSize(800, 600);
+    setSize(800, 700);
 
     // ALL THE MODEL THINGS ===== ===== ===== ===== =====
     // Make a model to work with
@@ -54,25 +56,6 @@ public class SwingFrame extends JFrame implements ActionListener, ItemListener, 
     // Add a scroll bar for main panel
     mainScrollPane = new JScrollPane(mainPanel);
     add(mainScrollPane);
-
-
-
-    // Just try to display an image first ===== ===== ===== =====
-    // Add a panel for the image
-//    imagePanel = new JPanel();
-//    // Add a border and caption
-//    imagePanel.setBorder(BorderFactory.createTitledBorder("INSERT NAME OF IMAGE"));
-//    imagePanel.setLayout(new GridLayout(1, 0, 10, 10));
-//    // Add it to the main panel
-//    mainPanel.add(imagePanel);
-
-    // Making the label and scroll pane
-//    String imagePath = new String("res/sun.jpg");
-//    JLabel imageLabel = new JLabel();
-//    JScrollPane imageScrollPane = new JScrollPane(imageLabel);
-//    imageLabel.setIcon(new ImageIcon(imagePath));
-//    imageScrollPane.setPreferredSize(new Dimension(300,300));
-//    imagePanel.add(imageScrollPane);
 
 
     // Add a button to open a file ===== ===== ===== =====
@@ -234,14 +217,10 @@ public class SwingFrame extends JFrame implements ActionListener, ItemListener, 
           }
           catch (StringIndexOutOfBoundsException er) {
             tempStr = "error";
+            fileOpenDisplay.setText("Error Loading image");
           }
           // Display the path
           fileOpenDisplay.setText(tempStr);
-
-          // Open the image...? (if not error)
-          if (!tempStr.equals("error")) {
-            openImage(tempStr);
-          }
 
           // Open the image into the model
           loadImage(tempStr, "image");
@@ -254,11 +233,20 @@ public class SwingFrame extends JFrame implements ActionListener, ItemListener, 
       }
       break;
       case "Save": {
+        boolean errorBool = false;
         // Get the path
         String path = pathText.getText();
         // Call save image
-        saveImage(path, "image");
-        fileOpenDisplay.setText("Image saved");
+        try {
+          saveImage(path, "image");
+        }
+        catch (IllegalArgumentException err) {
+          fileOpenDisplay.setText(err.getMessage());
+          errorBool = true;
+        }
+        if (!errorBool) {
+          fileOpenDisplay.setText("Image saved");
+        }
       }
       break;
       case "Red Component": {
@@ -370,6 +358,7 @@ public class SwingFrame extends JFrame implements ActionListener, ItemListener, 
       }
       break;
       case "Bright": {
+        boolean nonInt = false;
         // Get the brightness
         String brightStr = brightenAmount.getText();
         int brightNum = 0;
@@ -378,6 +367,7 @@ public class SwingFrame extends JFrame implements ActionListener, ItemListener, 
         }
         catch (NumberFormatException e2) {
           brightNum = 0;
+          nonInt = true;
         }
 
         // Call bright to the model
@@ -386,6 +376,9 @@ public class SwingFrame extends JFrame implements ActionListener, ItemListener, 
         fileOpenDisplay.setText("Brighten running...");
         visualizeBufferedImage(convertPixelArrayToBufferedImage(model.saveImage("image")));
         fileOpenDisplay.setText("Brighten run");
+        if (nonInt) {
+          fileOpenDisplay.setText("ERROR! Must give Bright an integer!");
+        }
       }
     }
 
@@ -404,32 +397,6 @@ public class SwingFrame extends JFrame implements ActionListener, ItemListener, 
 
   // HELPER FUNCTIONS
 
-  private void openImage(String path) {
-    // Remove the old image potentially?
-    try {
-      mainPanel.remove(1);
-    }
-    catch (ArrayIndexOutOfBoundsException e) {
-      // There wasn't an item to remove
-    }
-
-
-    // Make the panel
-    imagePanel = new JPanel();
-    // Add a border and caption
-    imagePanel.setBorder(BorderFactory.createTitledBorder(path));
-    imagePanel.setLayout(new GridLayout(1, 0, 10, 10));
-    // Add it to the main panel
-    mainPanel.add(imagePanel);
-
-    // Opens an image at path
-    String imagePath = new String(path);
-    JLabel imageLabel = new JLabel();
-    JScrollPane imageScrollPane = new JScrollPane(imageLabel);
-    imageLabel.setIcon(new ImageIcon(imagePath));
-    imageScrollPane.setPreferredSize(new Dimension(300,300));
-    imagePanel.add(imageScrollPane);
-  }
 
   protected void visualizeBufferedImage(BufferedImage bufferedImage) {
     // Remove the old image potentially?
@@ -446,7 +413,7 @@ public class SwingFrame extends JFrame implements ActionListener, ItemListener, 
     imagePanel.setBorder(BorderFactory.createTitledBorder("image"));
     imagePanel.setLayout(new GridLayout(1, 0, 10, 10));
     // Add it to the main panel
-    mainPanel.add(imagePanel);
+    mainPanel.add(imagePanel, 1);
 
     // Opens the given image
     JLabel imageLabel = new JLabel();
@@ -454,6 +421,75 @@ public class SwingFrame extends JFrame implements ActionListener, ItemListener, 
     imageLabel.setIcon(new ImageIcon(bufferedImage));
     imageScrollPane.setPreferredSize(new Dimension(300,300));
     imagePanel.add(imageScrollPane);
+
+    // Add the charts
+    addColorCharts(model.saveImage("image"));
+  }
+
+  protected void addColorCharts(ColorPixel[][] image) {
+    // Remove the old graph potentially?
+    try {
+      mainPanel.remove(2);
+    }
+    catch (ArrayIndexOutOfBoundsException e) {
+      // There wasn't an item to remove
+    }
+
+    // Generate r,g,b,intensity color pixel arrays
+    model.redComponent("image","red");
+    model.greenComponent("image","green");
+    model.blueComponent("image","blue");
+    model.intensityComponent("image","intensity");
+
+    // Generate the arrays based on the images
+    int[] redArray = generateArray(model.saveImage("red"));
+    int[] greenArray = generateArray(model.saveImage("green"));
+    int[] blueArray = generateArray(model.saveImage("blue"));
+    int[] intensityArray = generateArray(model.saveImage("intensity"));
+
+    // Make the charts
+    // Make strings
+    String s1 = "Red";
+    String s2 = "Green";
+    String s3 = "Blue";
+    String s4 = "Intensity";
+
+    // Make the data set
+    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+    // Make the data sets
+    // This only works if they're the same size array, which they are
+    for (int i = 0; i < redArray.length; i++) {
+      dataset.addValue(redArray[i], s1, String.valueOf(i));
+      dataset.addValue(blueArray[i], s3, String.valueOf(i));
+      dataset.addValue(greenArray[i], s2, String.valueOf(i));
+      dataset.addValue(intensityArray[i], s4, String.valueOf(i));
+    }
+
+    // Create the chart
+    JFreeChart chart = ChartFactory.createLineChart("RGBI Values", "Pixel Values", "Level", dataset);
+    ChartPanel chartPanel = new ChartPanel(chart);
+    // Are we supposed to be adding this to the main panel...?
+    mainPanel.add(chartPanel);
+  }
+
+  protected int[] generateArray(ColorPixel[][] image) {
+
+    // Loop through the image
+    int[] arr = new int [256];
+
+    // Loop through the image counting the numbers
+    for (int i = 0; i < image.length; i++) {
+      for (int k = 0; k < image[i].length; k++) {
+        // Get just the R because they should all be the same
+        int r = image[i][k].getR();
+        // Add one to the value of this spot
+        arr[r]++;
+      }
+    }
+
+    // Return the array
+    return arr;
   }
 
   // Loading an image stuff ===== ===== ===== ===== =====
@@ -486,6 +522,7 @@ public class SwingFrame extends JFrame implements ActionListener, ItemListener, 
       bufferedImage = ImageIO.read(new File(path));
     }
     catch (IOException e) {
+      fileOpenDisplay.setText("ERROR! Attempt to read the file at given path failed");
       throw new IllegalArgumentException("Attempt to read the file at given path failed");
     }
 
@@ -517,6 +554,7 @@ public class SwingFrame extends JFrame implements ActionListener, ItemListener, 
       scan = new Scanner(new FileInputStream(path));
     }
     catch (FileNotFoundException e) {
+      fileOpenDisplay.setText("File: " + path + " was not found");
       throw new IllegalArgumentException("File: " + path + " was not found");
     }
 
@@ -573,14 +611,31 @@ public class SwingFrame extends JFrame implements ActionListener, ItemListener, 
     // This is the handler, then it calls other save methods
 
     // Find out what extension it is
-    String extension = path.substring(path.lastIndexOf('.'));
+    String extension = "";
+    try {
+      extension = path.substring(path.lastIndexOf('.'));
+    }
+    catch (StringIndexOutOfBoundsException e) {
+      throw new IllegalArgumentException("Invalid file extension");
+    }
+
 
     // Call something based on the extension
     if (extension.equals(".ppm")) {
-      savePpmImage(path, name);
+      try {
+        savePpmImage(path, name);
+      }
+      catch (IllegalArgumentException e) {
+        throw e;
+      }
     }
     else {
-      saveOtherImage(path, name);
+      try {
+        saveOtherImage(path, name);
+      }
+      catch (IllegalArgumentException e) {
+        throw e;
+      }
     }
 
   }
@@ -601,6 +656,7 @@ public class SwingFrame extends JFrame implements ActionListener, ItemListener, 
       extension = path.substring(path.lastIndexOf('.') + 1);
     }
     catch (IndexOutOfBoundsException e) {
+      fileOpenDisplay.setText("Invalid file extension");
       throw new IllegalArgumentException("Invalid file extension");
     }
 
@@ -611,6 +667,7 @@ public class SwingFrame extends JFrame implements ActionListener, ItemListener, 
       ImageIO.write(bufferedImage, extension, outputFile);
     }
     catch (IOException e) {
+      fileOpenDisplay.setText("Unable to write to the file at the given path");
       throw new IllegalArgumentException("Unable to write to the file at the given path");
     }
 
@@ -657,6 +714,7 @@ public class SwingFrame extends JFrame implements ActionListener, ItemListener, 
       }
     }
     catch (IOException e) {
+      fileOpenDisplay.setText("New file could not be created");
       throw new IllegalArgumentException("New file could not be created");
     }
 
@@ -671,6 +729,7 @@ public class SwingFrame extends JFrame implements ActionListener, ItemListener, 
       // Successfully wrote the file
     }
     catch (IOException e) {
+      fileOpenDisplay.setText("File write failed");
       throw new IllegalArgumentException("File write failed");
     }
   }

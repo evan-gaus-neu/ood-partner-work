@@ -4,12 +4,15 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.Scanner;
 
+import javax.swing.*;
+
 import controller.ImageProController;
 import controller.ImageProControllerImpl;
 import model.IPMV2;
 import model.IPModelV2;
 import view.ImageProView;
 import view.ImageProViewImpl;
+import view.SwingFrame;
 
 /**
  * Class that acts as a runner for the Model, View, and Controller.
@@ -26,39 +29,74 @@ public class ImagePro {
     // Readable
     Readable rd = new InputStreamReader(System.in);
 
-    // Check if we have command line input
-    if (args.length == 1) {
-      System.out.println("Error: invalid command line input. No file path found.");
-      System.exit(1);
-    }
-    else if (args.length > 1) {
-      // This means we have arguments
-      if (!args[0].equals("-file")) {
-        System.out.println("Error: invalid command line input, must start with '-file'");
+    if (args.length > 0) {
+      if (args[0].equals("-text")) {
+        // Do the normal text view
+        rd = new InputStreamReader(System.in);
+      }
+      else if (args[0].equals("-file")) {
+        // Do the file stuff
+        if (args.length <= 1) {
+          System.out.println("Error: invalid command line input. No file path found.");
+          System.exit(1);
+        }
+        // Now we know it starts with file, call this to open the file and read it
+        String commands = new String();
+        try {
+          commands = getFileInputAsString(args[1]);
+        }
+        catch (IllegalArgumentException e) {
+          System.out.println("Error: " + e.getMessage());
+          System.exit(1);
+        }
+        // Set rd to the commands
+        rd = new StringReader(commands);
+      }
+      else {
+        System.out.println("Error: invalid command line input, must start with '-file' or '-text'");
         System.exit(1);
       }
-      // Now we know it starts with file, call this to open the file and read it
-      String commands = new String();
+
+      // Set up stuff with for file or text
+      // Do all the normal set up things
+      IPMV2 model = new IPModelV2();
+      Appendable ap = System.out;
+      ImageProView view = new ImageProViewImpl(model, ap);
+      ImageProController controller = new ImageProControllerImpl(model, view, rd);
+      controller.run();
+    }
+    else {
+      // GUI
+
+      // Create the GUI frame
+      SwingFrame.setDefaultLookAndFeelDecorated(false);
+      SwingFrame frame = new SwingFrame();
+
+      // Set up the GUI frame
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      frame.setVisible(true);
+
       try {
-        commands = getFileInputAsString(args[1]);
+        // This calls the GUI
+        UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
       }
-      catch (IllegalArgumentException e) {
-        System.out.println("Error: " + e.getMessage());
-        System.exit(1);
+      catch (UnsupportedLookAndFeelException e) {
+        // Don't do anything if it breaks
       }
-
-      //
-      rd = new StringReader(commands);
+      catch (ClassNotFoundException e) {
+        // Don't do anything if it breaks
+      }
+      catch (InstantiationException e) {
+        // Don't do anything if it breaks
+      }
+      catch (IllegalAccessException e) {
+        // Don't do anything if it breaks
+      }
+      catch (Exception e) {
+        // Don't do anything if it breaks
+      }
     }
-    // Don't have to have an else because if I don't
-    // overwrite rd, it'll be system in by default
 
-    // Do all the normal set up things
-    IPMV2 model = new IPModelV2();
-    Appendable ap = System.out;
-    ImageProView view = new ImageProViewImpl(model, ap);
-    ImageProController controller = new ImageProControllerImpl(model, view, rd);
-    controller.run();
   }
 
   static protected String getFileInputAsString(String path) throws IllegalArgumentException {
