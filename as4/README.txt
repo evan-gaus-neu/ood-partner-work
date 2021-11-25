@@ -1,6 +1,17 @@
 ------------------
 Design
 ------------------
+
+===== NEW FOR ASSIGNMENT #6 =====
+The GUI basically acts as the view and the controller, because all
+of the controlling is done within the GUI by clicking buttons.
+Nothing was changed about our other implementation, and we
+basically just added a GUI JFrame in the the view folder. The only
+thing that was changed, was the simple handling of the arguments
+in the main method was changed to add the "-text", starting up the
+GUI on the default case with no arguments now.
+
+===== GENERAL =====
 The image processing program features a model, view, and controller
 implementation. The model handles the brains of the operations,
 handling all of the image processing functions, storing a map of
@@ -25,7 +36,6 @@ and make calls to the model.
 
 
 ===== NEW FOR ASSIGNMENT #5 =====
-
 Per feedback we received on assignment 4, we moved the input
 output control (the load and save image commands) to the controller.
 

@@ -1,6 +1,9 @@
 package view;
 
-import java.awt.*;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.Dimension;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -12,11 +15,22 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
-import org.jfree.chart.*;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import javax.swing.BoxLayout;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.ImageIcon;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -25,19 +39,24 @@ import data.ColorPixel;
 import model.IPMV2;
 import model.IPModelV2;
 
-public class SwingFrame extends JFrame implements ActionListener, ItemListener, ListSelectionListener {
+/**
+ * The Java frame that represents the GUI for the image processor.
+ */
+public class SwingFrame extends JFrame implements ActionListener,
+        ItemListener, ListSelectionListener {
 
   // Model data
   private IPMV2 model;
 
   // All the data for this
   private JPanel mainPanel;
-  private JScrollPane mainScrollPane;
   private JLabel fileOpenDisplay;
-  private JPanel imagePanel;
   private JTextArea brightenAmount;
   private JTextArea pathText;
 
+  /**
+   * Constructor to create the JFrame for the GUI of the image processor.
+   */
   public SwingFrame() {
 
     // Set up the basics
@@ -54,7 +73,7 @@ public class SwingFrame extends JFrame implements ActionListener, ItemListener, 
     // Arrange elements vertically
     mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
     // Add a scroll bar for main panel
-    mainScrollPane = new JScrollPane(mainPanel);
+    JScrollPane mainScrollPane = new JScrollPane(mainPanel);
     add(mainScrollPane);
 
 
@@ -197,7 +216,7 @@ public class SwingFrame extends JFrame implements ActionListener, ItemListener, 
       case "Open file": {
         final JFileChooser fchooser = new JFileChooser(".");
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                "JPG & GIF Images", "jpg", "gif");
+                "JPG, GIF, PNG, PPM Images", "jpg", "gif", "png", "ppm");
         fchooser.setFileFilter(filter);
         int retvalue = fchooser.showOpenDialog(SwingFrame.this);
         if (retvalue == JFileChooser.APPROVE_OPTION) {
@@ -380,6 +399,11 @@ public class SwingFrame extends JFrame implements ActionListener, ItemListener, 
           fileOpenDisplay.setText("ERROR! Must give Bright an integer!");
         }
       }
+      break;
+      default: {
+        // Do nothing
+      }
+      break;
     }
 
   }
@@ -408,7 +432,7 @@ public class SwingFrame extends JFrame implements ActionListener, ItemListener, 
     }
 
     // Make the panel
-    imagePanel = new JPanel();
+    JPanel imagePanel = new JPanel();
     // Add a border and caption
     imagePanel.setBorder(BorderFactory.createTitledBorder("image"));
     imagePanel.setLayout(new GridLayout(1, 0, 10, 10));
@@ -467,7 +491,8 @@ public class SwingFrame extends JFrame implements ActionListener, ItemListener, 
     }
 
     // Create the chart
-    JFreeChart chart = ChartFactory.createLineChart("RGBI Values", "Pixel Values", "Level", dataset);
+    JFreeChart chart = ChartFactory.createLineChart("RGBI Values",
+            "Pixel Values", "Level", dataset);
     ChartPanel chartPanel = new ChartPanel(chart);
     // Are we supposed to be adding this to the main panel...?
     mainPanel.add(chartPanel);

@@ -1,5 +1,21 @@
 ------------------
-Script of Commands
+   Use of GUI
+------------------
+
+The first step in using the GUI is to load an image, using the 
+"Load Image" button. This opens the file explorer, in which you 
+pick an image to open into the program. Next you can use any of 
+the many buttons to manipulate the image, making as many 
+changes as you please. The Red, Green, Blue, and Intensity 
+values are displayed on the line graph below the image, and 
+update with each change made. The final step is to save the 
+image. This is done by entering the path to save the image in 
+the text box, then clicking save.
+
+
+
+------------------
+Script of Commands (for -text)
 ------------------
 
 load <image-path> <image-name>

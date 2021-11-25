@@ -4,7 +4,10 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.Scanner;
 
-import javax.swing.*;
+
+import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import controller.ImageProController;
 import controller.ImageProControllerImpl;
