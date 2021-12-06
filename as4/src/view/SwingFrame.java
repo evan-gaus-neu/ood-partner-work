@@ -15,10 +15,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -222,10 +218,15 @@ public class SwingFrame extends JFrame implements ActionListener,
         if (retvalue == JFileChooser.APPROVE_OPTION) {
           File f = fchooser.getSelectedFile();
 
+          // get the current path and get the last 3 of it
+          String myCurrentPath = "";
+          myCurrentPath = System.getProperty("user.dir");
+          myCurrentPath = myCurrentPath.substring(myCurrentPath.length() - 3);
+
           // Get the path from as4
           String tempStr = f.getPath();
           try {
-            int index = tempStr.indexOf("as4");
+            int index = tempStr.lastIndexOf(myCurrentPath);
             if (index >= 0) {
               tempStr = tempStr.substring(index + 4);
             }
@@ -446,8 +447,8 @@ public class SwingFrame extends JFrame implements ActionListener,
     imageScrollPane.setPreferredSize(new Dimension(300,300));
     imagePanel.add(imageScrollPane);
 
-    // Add the charts
-    addColorCharts(model.saveImage("image"));
+    // Add the charts QQ Don't add the chart
+    // addColorCharts(model.saveImage("image"));
   }
 
   protected void addColorCharts(ColorPixel[][] image) {
@@ -479,23 +480,23 @@ public class SwingFrame extends JFrame implements ActionListener,
     String s4 = "Intensity";
 
     // Make the data set
-    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    // DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
     // Make the data sets
     // This only works if they're the same size array, which they are
-    for (int i = 0; i < redArray.length; i++) {
-      dataset.addValue(redArray[i], s1, String.valueOf(i));
-      dataset.addValue(blueArray[i], s3, String.valueOf(i));
-      dataset.addValue(greenArray[i], s2, String.valueOf(i));
-      dataset.addValue(intensityArray[i], s4, String.valueOf(i));
-    }
+    // for (int i = 0; i < redArray.length; i++) {
+    //  dataset.addValue(redArray[i], s1, String.valueOf(i));
+    //  dataset.addValue(blueArray[i], s3, String.valueOf(i));
+    //  dataset.addValue(greenArray[i], s2, String.valueOf(i));
+    //  dataset.addValue(intensityArray[i], s4, String.valueOf(i));
+    // }
 
-    // Create the chart
-    JFreeChart chart = ChartFactory.createLineChart("RGBI Values",
-            "Pixel Values", "Level", dataset);
-    ChartPanel chartPanel = new ChartPanel(chart);
+    // Create the chart QQ Commented out
+    // JFreeChart chart = ChartFactory.createLineChart("RGBI Values",
+    //        "Pixel Values", "Level", dataset);
+    // ChartPanel chartPanel = new ChartPanel(chart);
     // Are we supposed to be adding this to the main panel...?
-    mainPanel.add(chartPanel);
+    // mainPanel.add(chartPanel);
   }
 
   protected int[] generateArray(ColorPixel[][] image) {
@@ -521,6 +522,12 @@ public class SwingFrame extends JFrame implements ActionListener,
 
   protected void loadImage(String path, String name) throws IllegalArgumentException {
     // This is the first handler, which figures out which type of file it is
+
+    // If the current directory doesn't end in as4 then remove that part:
+    // Remove this later QQ
+    System.out.println("Working Directory = " + System.getProperty("user.dir"));
+    // "/Users/evangaus/Documents/Evan-Gaus-School-Work/ood-partner-work/as4/out/artifacts/as4_jar"
+
 
     // Check what extension it is, get just the extension
     if (path.lastIndexOf('.') < 0) {
