@@ -132,6 +132,19 @@ public class ImageProcessingControllerImplTest {
   }
 
   @Test
+  public void testMosaicCommand() throws IOException {
+    String inputString = "load res/Tree.ppm tree \nmosaic 1000 tree tree-mosaic \nq";
+    StringReader input = new StringReader(inputString);
+    ImageProcessingControllerImpl controller2 = new ImageProcessingControllerImpl(view1, input);
+    controller2.runImageProcessing();
+    String actualOutput = out.toString();
+    String[] lines = actualOutput.split("\n");
+    actualOutput = lines[2];
+    String expectedOutput = "Image transformed.";
+    assertEquals(expectedOutput, actualOutput);
+  }
+
+  @Test
   public void testVerticalFlipCommand() throws IOException {
     String inputString = "load res/Tree.ppm tree \nvertical-flip tree tree-dark \nq";
     StringReader input = new StringReader(inputString);

@@ -142,8 +142,8 @@ public class MosaicModel extends AbstractImageProcessingModel {
     Position temp = new Position(-100, -100);
     int shortestDistance = 100000;
     for (Position cur : seedPositions) {
-      int tempDist = Math.abs(currentPosition.xPos + cur.xPos) +
-              Math.abs(currentPosition.yPos + cur.yPos);
+      int tempDist = Math.abs(currentPosition.xPos - cur.xPos) +
+              Math.abs(currentPosition.yPos - cur.yPos);
       if (tempDist < shortestDistance) {
         shortestDistance = tempDist;
         temp.xPos = cur.xPos;
