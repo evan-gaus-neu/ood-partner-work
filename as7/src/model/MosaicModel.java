@@ -139,8 +139,18 @@ public class MosaicModel extends AbstractImageProcessingModel {
 
 
   private Position getNearestNeighbor(Position currentPosition) {
-    return null;
-
+    Position temp = new Position(-100, -100);
+    int shortestDistance = 100000;
+    for (Position cur : seedPositions) {
+      int tempDist = Math.abs(currentPosition.xPos + cur.xPos) +
+              Math.abs(currentPosition.yPos + cur.yPos);
+      if (tempDist < shortestDistance) {
+        shortestDistance = tempDist;
+        temp.xPos = cur.xPos;
+        temp.yPos = cur.yPos;
+      }
+    }
+    return temp;
     // Use seed positions as a list of the positions of the seeds
   }
 
