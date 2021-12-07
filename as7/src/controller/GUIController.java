@@ -9,6 +9,7 @@ import model.HorizontalModel;
 import model.ImageProcessingModel;
 import model.IntensityModel;
 import model.LumaModel;
+import model.MosaicModel;
 import model.RGBModel;
 import model.SepiaModel;
 import model.SharpenModel;
@@ -106,6 +107,21 @@ public class GUIController implements Features {
       view.histogram(model.getHistograms());
     } catch (NumberFormatException e) {
       view.renderMessage("Invalid Factor");
+    } catch (NullPointerException n) {
+      view.renderMessage("No image loaded");
+    }
+  }
+
+  @Override
+  public void mosaic(String numSeeds) throws IOException {
+    try {
+      model = new MosaicModel(model.getData(), Integer.parseInt(numSeeds));
+      model.transform();
+      BufferedImage bi = arrayToBufferedImage(model.getData());
+      view.visualize(bi);
+      view.histogram(model.getHistograms());
+    } catch (NumberFormatException e) {
+      view.renderMessage("Invalid Number of Seeds");
     } catch (NullPointerException n) {
       view.renderMessage("No image loaded");
     }

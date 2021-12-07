@@ -33,6 +33,14 @@ public interface Features {
   void darken(String factor) throws IOException;
 
   /**
+   * Mosaic an image.
+   *
+   * @param numSeeds the number of seeds for the mosaic
+   * @throws IOException If there is no image loaded or an invalid number of seeds.
+   */
+  void mosaic(String numSeeds) throws IOException;
+
+  /**
    * Load an image.
    *
    * @param path Source path

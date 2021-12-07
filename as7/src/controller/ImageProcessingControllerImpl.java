@@ -13,6 +13,7 @@ import model.ImageProcessingModel;
 import model.ImageProcessingModel.RedGreenBlue;
 import model.IntensityModel;
 import model.LumaModel;
+import model.MosaicModel;
 import model.RGBModel;
 import model.SepiaModel;
 import model.SharpenModel;
@@ -137,6 +138,10 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
 
           brightenImage(args);
 
+        } else if (args.length == 4 && args[0].equals("mosaic")) {
+
+          mosaicImage(args);
+
         } else {
 
           this.imageProcessingView.renderMessage("Command not found! Try again.\n");
@@ -233,6 +238,34 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
       }
     } catch (NumberFormatException n) {
       this.imageProcessingView.renderMessage("Factor is not a valid integer.\n");
+    }
+  }
+
+  /**
+   * Creates a mosaic of the current image with the given arguments of the command.
+   * Also checks if the given seed number can be converted to an integer.
+   * @param args A string array of the command which guarantees the 1st argument is "mosaic",
+   *             the second argument is the number of mosaic seeds
+   *             the third argument is the image name to mosaic
+   *             the fourth argument is the image name to save the transformed version
+   * @throws IOException
+   */
+  private void mosaicImage(String[] args) throws IOException {
+    try {
+      int numSeeds = Integer.parseInt(args[1]);
+      if (imageProcessingModel.containsKey(args[2])) {
+        ImageProcessingModel orig = imageProcessingModel.get(args[2]);
+        int[][][] dat = copy3dArray(orig.getData());
+        ImageProcessingModel mosaiced =
+                new MosaicModel(dat, numSeeds, orig.getMaxValue());
+        mosaiced.transform();
+        imageProcessingModel.put(args[3], mosaiced);
+        this.imageProcessingView.renderMessage("Image transformed.\n");
+      } else {
+        this.imageProcessingView.renderMessage("Image source not found.\n");
+      }
+    } catch (NumberFormatException n) {
+      this.imageProcessingView.renderMessage("Number of Seeds is not a valid integer.\n");
     }
   }
 

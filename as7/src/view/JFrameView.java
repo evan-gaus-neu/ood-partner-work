@@ -62,7 +62,7 @@ public class JFrameView extends JFrame implements ImageProcessingView {
 
     JPanel transformOptions = new JPanel();
     String[] options = {"red", "green", "blue", "value", "luma", "intensity", "horizontal flip",
-      "vertical flip", "brighten", "darken", "blur", "sharpen", "sepia"};
+      "vertical flip", "brighten", "darken", "blur", "sharpen", "sepia", "mosaic"};
     combobox = new JComboBox<String>();
     for (int i = 0; i < options.length; i++) {
       combobox.addItem(options[i]);
@@ -216,6 +216,9 @@ public class JFrameView extends JFrame implements ImageProcessingView {
         break;
       case "sepia":
         features.sepia();
+        break;
+      case "mosaic":
+        features.mosaic(enterFactor.getText());
         break;
       default:
         System.out.println("Operation not found");
