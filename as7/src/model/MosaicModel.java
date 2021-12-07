@@ -12,6 +12,7 @@ public class MosaicModel extends AbstractImageProcessingModel {
   private int numSeeds;
   private int minValue;
   private Map<String, ArrayList<Position>> seedMap;
+  private ArrayList<Position> seedPositions;
 
   /**
    * Creates an instance of the mosaic model which includes the need of a given number of seeds.
@@ -27,6 +28,7 @@ public class MosaicModel extends AbstractImageProcessingModel {
     this.numSeeds = numSeeds;
     this.minValue = 0;
     this.seedMap = new HashMap<String, ArrayList<Position>>();
+    this.seedPositions = new ArrayList<>();
   }
 
   /**
@@ -44,6 +46,7 @@ public class MosaicModel extends AbstractImageProcessingModel {
     this.numSeeds = numSeeds;
     this.minValue = 0;
     this.seedMap = new HashMap<String, ArrayList<Position>>();
+    this.seedPositions = new ArrayList<>();
   }
 
   /**
@@ -56,8 +59,6 @@ public class MosaicModel extends AbstractImageProcessingModel {
 
     // Data for this method
     Random random = new Random();
-    ArrayList<Position> seedPositions = new ArrayList<>();
-
 
     // Randomly generate the seeds (number is based on numSeeds)
     // Loop through and add them to a map where the key is the pixel position "x,y" and it stores an empty array list of pixel positions
@@ -139,6 +140,8 @@ public class MosaicModel extends AbstractImageProcessingModel {
 
   private Position getNearestNeighbor(Position currentPosition) {
     return null;
+
+    // Use seed positions as a list of the positions of the seeds
   }
 
 
