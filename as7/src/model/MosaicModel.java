@@ -61,7 +61,8 @@ public class MosaicModel extends AbstractImageProcessingModel {
     Random random = new Random();
 
     // Randomly generate the seeds (number is based on numSeeds)
-    // Loop through and add them to a map where the key is the pixel position "x,y" and it stores an empty array list of pixel positions
+    // Loop through and add them to a map where the key is the pixel
+    // position "x,y" and it stores an empty array list of pixel positions
     // Generate numSeeds number of seeds
     for (int i = 0; i < numSeeds; i++) {
       // Get a random x and y position within the image
@@ -155,11 +156,24 @@ public class MosaicModel extends AbstractImageProcessingModel {
   }
 
 
-  // Class to represent a position
+  /**
+   * Class to represent an x and y position.
+   */
   public class Position {
+    /**
+     * The x position.
+     */
     public int xPos;
+    /**
+     * The y position.
+     */
     public int yPos;
 
+    /**
+     * Constructor to create a position.
+     * @param xPos the x position
+     * @param yPos the y position
+     */
     public Position(int xPos, int yPos) {
       this.xPos = xPos;
       this.yPos = yPos;

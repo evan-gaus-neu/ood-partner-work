@@ -248,7 +248,7 @@ public class ImageProcessingControllerImpl implements ImageProcessingController 
    *             the second argument is the number of mosaic seeds
    *             the third argument is the image name to mosaic
    *             the fourth argument is the image name to save the transformed version
-   * @throws IOException
+   * @throws IOException If the message prompts cannot be transmitted.
    */
   private void mosaicImage(String[] args) throws IOException {
     try {

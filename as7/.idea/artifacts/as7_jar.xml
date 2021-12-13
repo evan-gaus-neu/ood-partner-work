@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="as7:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/as7_jar</output-path>
+    <root id="archive" name="as7.jar">
+      <element id="module-output" name="as7" />
+    </root>
+  </artifact>
+</component>
