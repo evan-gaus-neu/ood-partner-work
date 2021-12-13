@@ -240,8 +240,8 @@ public class ImageProModelImpl implements ImageProModel {
       ColorPixel [][] newImage = new ColorPixel[newHeight][newWidth];
 
       // Set pixels bs
-      double heightRatio = oldImage.length / newHeight; // Ex: 1.6
-      double widthRatio = oldImage[0].length / newWidth; // Ex: 1.3
+      double heightRatio = (double) oldImage.length / newHeight; // Ex: 1.6
+      double widthRatio = (double) oldImage[0].length / newWidth; // Ex: 1.3
 
       // Loop through the new image
       for (int i = 0; i < newImage.length; i++) {
@@ -253,9 +253,9 @@ public class ImageProModelImpl implements ImageProModel {
 
           // Get four pixels
           int h1 = (int) Math.floor(hDouble);
-          int h2 = (int) Math.ceil(hDouble);
+          int h2 = h1 + 1;
           int w1 = (int) Math.floor(wDouble);
-          int w2 = (int) Math.ceil(wDouble);
+          int w2 = w1 + 1;
 
           // The 4 pixels
           ColorPixel a = oldImage[h1][w1];
@@ -317,7 +317,5 @@ public class ImageProModelImpl implements ImageProModel {
       throw new IllegalArgumentException("Given name didn't correspond to an image");
     }
   }
-
-
 
 }

@@ -1,5 +1,7 @@
 package model;
 
+import java.util.InputMismatchException;
+
 import data.ColorPixel;
 
 /**
@@ -187,5 +189,99 @@ public class IPModelV2 extends ImageProModelImpl implements IPMV2 {
     int finalVal = (int) Math.round(tempVal);
     return finalVal;
   }
+
+
+  @Override
+  public void mask(String filter, String name, String mask, String dest, int increment) throws IllegalArgumentException {
+    if (images.containsKey(name) && images.containsKey(mask)) {
+
+      // Switch for the filter (BIG)
+      switch (filter) {
+        case "red-component":
+          redComponent(name, "EvanVinnieDoNotUseThisAsYourName");
+          break;
+        case "green-component":
+          greenComponent(name, "EvanVinnieDoNotUseThisAsYourName");
+          break;
+        case "blue-component":
+          blueComponent(name, "EvanVinnieDoNotUseThisAsYourName");
+          break;
+        case "value-component":
+          valueComponent(name, "EvanVinnieDoNotUseThisAsYourName");
+          break;
+        case "intensity-component":
+          intensityComponent(name, "EvanVinnieDoNotUseThisAsYourName");
+          break;
+        case "luma-component":
+          lumaComponent(name, "EvanVinnieDoNotUseThisAsYourName");
+          break;
+        case "horizontal-flip":
+          horFlip(name, "EvanVinnieDoNotUseThisAsYourName");
+          break;
+        case "vertical-flip":
+          vertFlip(name, "EvanVinnieDoNotUseThisAsYourName");
+          break;
+        case "brighten":
+          brighten(increment, name, "EvanVinnieDoNotUseThisAsYourName");
+          break;
+        case "blur":
+          blur(name, "EvanVinnieDoNotUseThisAsYourName");
+          break;
+        case "sharpen":
+          sharpen(name, "EvanVinnieDoNotUseThisAsYourName");
+          break;
+        case "greyscale":
+          greyscale(name, "EvanVinnieDoNotUseThisAsYourName");
+          break;
+        case "sepia":
+          sepia(name, "EvanVinnieDoNotUseThisAsYourName");
+          break;
+        default: // Unrecognized command
+          throw new IllegalArgumentException("Filter command not recognized");
+      }
+
+      // Our 3 images
+      ColorPixel[][] oldImage = images.get(name);
+      ColorPixel[][] newImage = images.get("EvanVinnieDoNotUseThisAsYourName");
+      ColorPixel[][] maskImage = images.get(mask);
+      // Set up the return image
+      ColorPixel[][] returnImage = new ColorPixel[oldImage.length][oldImage[0].length];
+
+      returnImage = arraySetUp(returnImage);
+
+      // Loop through the mask
+      for (int i = 0; i < maskImage.length; i++) {
+        for (int j = 0; j < maskImage[i].length; j++) {
+
+          ColorPixel maskP = maskImage[i][j];
+          ColorPixel origP = oldImage[i][j];
+          ColorPixel newP = newImage[i][j];
+
+          // If the mask is black, set the filtered
+          if (maskP.getR() == 0 && maskP.getG() == 0 && maskP.getB() == 0) {
+            returnImage[i][j].setR(newP.getR());
+            returnImage[i][j].setG(newP.getG());
+            returnImage[i][j].setB(newP.getB());
+          }
+          else {
+            returnImage[i][j].setR(origP.getR());
+            returnImage[i][j].setG(origP.getG());
+            returnImage[i][j].setB(origP.getB());
+          }
+        }
+      }
+      // If the pixel is black
+      //      Take it from the temp (affected image)
+      // If the pixel is not black
+      //      Take it from the old image (original image)
+
+      // Put it in destination
+      images.put(dest, returnImage);
+    }
+    else {
+      throw new IllegalArgumentException("Given name or mask didn't correspond to an image");
+    }
+  }
+
 
 }

@@ -42,4 +42,16 @@ public interface IPMV2 extends ImageProModel {
    */
   void sepia(String name, String dest) throws IllegalArgumentException;
 
+  /**
+   * Does the filter option using the masked setting.
+   * @param filter the filter to be applied
+   * @param name the name of the original image
+   * @param mask the name of the mask image
+   * @param dest the name of the destination image
+   * @param increment the amount to be brightened or darkened (ONLY USED IF YOU CALL BRIGHTEN)
+   * @throws IllegalArgumentException if the name of the image to be manipulated
+   *                                  doesn't exist in the map of images
+   */
+  void mask(String filter, String name, String mask, String dest, int increment) throws IllegalArgumentException;
+
 }
