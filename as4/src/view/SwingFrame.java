@@ -203,6 +203,12 @@ public class SwingFrame extends JFrame implements ActionListener,
     brightButton.addActionListener(this);
     brightPanel.add(brightButton);
 
+    // Add the resize button
+    JButton resizeButton = new JButton("Resize Image");
+    resizeButton.setActionCommand("Resize");
+    resizeButton.addActionListener(this);
+    brightPanel.add(resizeButton);
+
   }
 
   @Override
@@ -398,6 +404,46 @@ public class SwingFrame extends JFrame implements ActionListener,
         fileOpenDisplay.setText("Brighten run");
         if (nonInt) {
           fileOpenDisplay.setText("ERROR! Must give Bright an integer!");
+        }
+      }
+      break;
+      case "Resize": {
+        String errorStr = "";
+        boolean errorBool = false;
+        // Get the width and height
+        String infoStr = brightenAmount.getText();
+        int width = 0;
+        int height = 0;
+        try {
+          String[] arr = infoStr.split(" ");
+          width = Integer.parseInt(arr[0]);
+          height = Integer.parseInt(arr[1]);
+        }
+        catch (NumberFormatException e2) {
+          width = -1;
+          errorBool = true;
+          errorStr = "ERROR! Must give Bright an integer!";
+        }
+        catch (ArrayIndexOutOfBoundsException e3) {
+          width = -1;
+          errorBool = true;
+          errorStr = "ERROR! Must give width then height seperated by a space";
+        }
+
+        // Call bright to the model
+        try {
+          model.resize(width, height, "image", "image");
+        }
+        catch (IllegalArgumentException e4) {
+          errorBool = true;
+          errorStr = "ERROR! " + e4.getMessage();
+        }
+
+        // Visualize the image
+        visualizeBufferedImage(convertPixelArrayToBufferedImage(model.saveImage("image")));
+        fileOpenDisplay.setText("Resize run");
+        if (errorBool) {
+          fileOpenDisplay.setText(errorStr);
         }
       }
       break;

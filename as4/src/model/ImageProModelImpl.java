@@ -225,7 +225,93 @@ public class ImageProModelImpl implements ImageProModel {
   @Override
   public void resize(int newWidth, int newHeight, String name, String dest) throws IllegalArgumentException {
     if (images.containsKey(name)) {
+      // Get the old image
+      ColorPixel[][] oldImage = images.get(name);
 
+      // Check if the new height and width are smaller than before, and that they're not zero
+      if (newHeight > oldImage.length || newHeight < 1) {
+        throw new IllegalArgumentException("Height was invalid");
+      }
+      if (newWidth > oldImage[0].length || newWidth < 1) {
+        throw new IllegalArgumentException("Width was invalid");
+      }
+
+      // Create new image with new width and height
+      ColorPixel [][] newImage = new ColorPixel[newHeight][newWidth];
+
+      // Set pixels bs
+      double heightRatio = oldImage.length / newHeight; // Ex: 1.6
+      double widthRatio = oldImage[0].length / newWidth; // Ex: 1.3
+
+      // Loop through the new image
+      for (int i = 0; i < newImage.length; i++) {
+        for (int j = 0; j < newImage[i].length; j++) {
+          // i is height
+          // j is width
+          double hDouble = i * heightRatio; // 10.3, correspond to the old image
+          double wDouble = j * widthRatio; // 12.4
+
+          // Get four pixels
+          int h1 = (int) Math.floor(hDouble);
+          int h2 = (int) Math.ceil(hDouble);
+          int w1 = (int) Math.floor(wDouble);
+          int w2 = (int) Math.ceil(wDouble);
+
+          // The 4 pixels
+          ColorPixel a = oldImage[h1][w1];
+          ColorPixel b = oldImage[h1][w2];
+          ColorPixel c = oldImage[h2][w1];
+          ColorPixel d = oldImage[h2][w2];
+
+          // Ending variables
+          int rVal = 0;
+          int gVal = 0;
+          int bVal = 0;
+
+          for (int k = 0; k < 3; k++) {
+            // Get the Colors
+            int aR = a.getR();
+            int bR = b.getR();
+            int cR = c.getR();
+            int dR = d.getR();
+
+            if (k == 1) { // G
+              aR = a.getG();
+              bR = b.getG();
+              cR = c.getG();
+              dR = d.getG();
+            }
+            else if (k == 2) { // B
+              aR = a.getB();
+              bR = b.getB();
+              cR = c.getB();
+              dR = d.getB();
+            }
+
+            // The formula
+            double m = aR * (wDouble - w1) + bR * (w2 - wDouble);
+            double n = cR * (wDouble - w1) + dR * (w2 - wDouble);
+            double val = m * (hDouble - h1) + n * (h2 - hDouble);
+
+            // Round the final value
+            if (k == 0) {
+              rVal = (int) Math.round(val);
+            }
+            else if (k == 1) {
+              gVal = (int) Math.round(val);
+            }
+            else {
+              bVal = (int) Math.round(val);
+            }
+          }
+
+          // Last step
+          ColorPixel pixel = new ColorPixel(rVal, gVal, bVal);
+          newImage[i][j] = pixel;
+        }
+      }
+      // Put the image in the map
+      images.put(dest, newImage);
     }
     else {
       throw new IllegalArgumentException("Given name didn't correspond to an image");

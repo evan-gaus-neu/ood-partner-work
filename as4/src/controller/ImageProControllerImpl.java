@@ -212,6 +212,18 @@ public class ImageProControllerImpl implements ImageProController {
             renderMessageHelper("Invalid: " + e.getMessage() + "\n");
           }
           break;
+        case "resize":
+          try {
+            model.resize(scan.nextInt(), scan.nextInt(), scan.next(), scan.next());
+            renderMessageHelper("Resized image created!\n");
+          }
+          catch (IllegalArgumentException e) {
+            renderMessageHelper("Invalid: " + e.getMessage() + "\n");
+          }
+          catch (InputMismatchException e) {
+            renderMessageHelper("Invalid input for size!\n");
+          }
+          break;
         case "q":
         case "quit":
           quit = true;
