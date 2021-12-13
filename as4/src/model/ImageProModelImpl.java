@@ -221,10 +221,15 @@ public class ImageProModelImpl implements ImageProModel {
     }
   }
 
-  
+
   @Override
   public void resize(int newWidth, int newHeight, String name, String dest) throws IllegalArgumentException {
+    if (images.containsKey(name)) {
 
+    }
+    else {
+      throw new IllegalArgumentException("Given name didn't correspond to an image");
+    }
   }
 
 
