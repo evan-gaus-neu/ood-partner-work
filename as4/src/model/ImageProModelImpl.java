@@ -220,4 +220,13 @@ public class ImageProModelImpl implements ImageProModel {
       throw new IllegalArgumentException("Given name didn't correspond to an image");
     }
   }
+
+  
+  @Override
+  public void resize(int newWidth, int newHeight, String name, String dest) throws IllegalArgumentException {
+
+  }
+
+
+
 }

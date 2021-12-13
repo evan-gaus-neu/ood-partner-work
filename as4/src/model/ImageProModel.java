@@ -122,4 +122,15 @@ public interface ImageProModel {
    */
   void brighten(int increment, String name, String dest) throws IllegalArgumentException;
 
+  /**
+   * Creates a new downscaled version of the image, set to the new width and height.
+   * @param newWidth the width of the new downsized image
+   * @param newHeight the height of the new downsized image
+   * @param name the name of the starter image
+   * @param dest the name of the destination image
+   * @throws IllegalArgumentException if the name of the image to be manipulated
+   *                                  doesn't exist in the map of images
+   */
+  void resize(int newWidth, int newHeight, String name, String dest) throws IllegalArgumentException;
+
 }
