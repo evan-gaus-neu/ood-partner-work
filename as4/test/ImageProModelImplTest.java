@@ -219,6 +219,18 @@ public class ImageProModelImplTest {
             "greyscale dne grey   " +
             "sepia dne sepia   " +
             "save res/file.ppm dne   " +
+            "load res/sun.jpg sun    " +
+            "resize 20 20 dne resized      " +
+            "resize -20 20 dne resized    " +
+            "resize 20 -20 dne resized     " +
+            "resize dne dne dne resized    " +
+            "resize 400 20 sun resized    " +
+            "resize 20 400 sun resized    " +
+            "load res/sun-mask.jpg mask    " +
+            "mask dne sun mask mask-sun 0    " +
+            "mask greyscale dne mask mask-sun 0    " +
+            "mask greyscale sun dne mask-sun 0    " +
+            "mask brighten sun mask mask-sun dne    " +
             "quit");
     StringBuilder out = new StringBuilder();
 
@@ -267,6 +279,40 @@ public class ImageProModelImplTest {
             "Invalid: Given name didn't correspond to an image\n" +
             "Type instruction: \n" +
             "Invalid: Given name didn't correspond to an image\n" +
+            "Type instruction: \n" +
+            "Image loaded!\n" +
+            "Type instruction: \n" +
+            "Invalid: Given name didn't correspond to an image\n" +
+            "Type instruction: \n" +
+            "Invalid: Given name didn't correspond to an image\n" +
+            "Type instruction: \n" +
+            "Invalid: Given name didn't correspond to an image\n" +
+            "Type instruction: \n" +
+            "Invalid input for size!\n" +
+            "Type instruction: \n" +
+            "Unrecognized Command: dne\n" +
+            "Type instruction: \n" +
+            "Unrecognized Command: dne\n" +
+            "Type instruction: \n" +
+            "Unrecognized Command: dne\n" +
+            "Type instruction: \n" +
+            "Unrecognized Command: resized\n" +
+            "Type instruction: \n" +
+            "Invalid: Width was invalid\n" +
+            "Type instruction: \n" +
+            "Invalid: Height was invalid\n" +
+            "Type instruction: \n" +
+            "Image loaded!\n" +
+            "Type instruction: \n" +
+            "Invalid: Filter command not recognized\n" +
+            "Type instruction: \n" +
+            "Invalid: Given name or mask didn't correspond to an image\n" +
+            "Type instruction: \n" +
+            "Invalid: Given name or mask didn't correspond to an image\n" +
+            "Type instruction: \n" +
+            "Invalid input for increment!\n" +
+            "Type instruction: \n" +
+            "Unrecognized Command: dne\n" +
             "Type instruction: \n" +
             "Program quit. Thanks!", out.toString());
   }
@@ -509,6 +555,57 @@ public class ImageProModelImplTest {
             "Greyscale image created!\n" +
             "Type instruction: \n" +
             "Sepia image created!\n" +
+            "Type instruction: \n" +
+            "Image saved!\n" +
+            "Type instruction: \n" +
+            "Image saved!\n" +
+            "Type instruction: \n" +
+            "Image saved!\n" +
+            "Type instruction: \n" +
+            "Image saved!\n" +
+            "Type instruction: \n" +
+            "Program quit. Thanks!", out.toString());
+
+  }
+
+  @Test
+  public void maskResizeTest() {
+
+    // This string is what input we are giving it
+    Reader in = new StringReader("load res/sun.jpg sun     " +
+            "load res/sun-mask.jpg mask      " +
+            "resize 5 30 sun sun-s1     " +
+            "resize 30 30 sun sun-s2     " +
+            "mask greyscale sun mask sun-m1 0     " +
+            "mask blur sun mask sun-m2 0     " +
+            "save res/sun-s1.jpg sun-s1     " +
+            "save res/sun-s2.jpg sun-s2     " +
+            "save res/sun-m1.jpg sun-m1     " +
+            "save res/sun-m2.jpg sun-m2     " +
+            "quit");
+    StringBuilder out = new StringBuilder();
+
+    // Set up the model, view, and controller
+    IPMV2 model = new IPModelV2();
+    ImageProView view = new ImageProViewImpl(model, out);
+    ImageProController controller = new ImageProControllerImpl(model, view, in);
+
+    // Run the controller
+    controller.run();
+
+    assertEquals("Welcome to the Image Processor!\n" +
+            "Type instruction: \n" +
+            "Image loaded!\n" +
+            "Type instruction: \n" +
+            "Image loaded!\n" +
+            "Type instruction: \n" +
+            "Resized image created!\n" +
+            "Type instruction: \n" +
+            "Resized image created!\n" +
+            "Type instruction: \n" +
+            "Masked image created!\n" +
+            "Type instruction: \n" +
+            "Masked image created!\n" +
             "Type instruction: \n" +
             "Image saved!\n" +
             "Type instruction: \n" +

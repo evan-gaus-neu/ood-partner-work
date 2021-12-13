@@ -2,6 +2,42 @@
 Design
 ------------------
 
+===== NEW FOR EXTRA CREDIT =====
+
+In order to implement downsizing, we added a method to our model
+interface (ImageProModel) and our model implementation
+(ImageProModelImpl). Our method creates a new image with the sizes
+given (after making sure they were equal to or smaller than the
+original image), then used the height and width ratios to get
+pixels from the original image. We used the math given in the
+assignment to calculate the pixel values for all of our pixels
+(because they would be floating points in between pixels on the
+old image), thus creating our newly sized image and making it
+look as close as possible to the original. The final step was to
+add a button to our GUI that allowed for resizing to be called,
+and to add a case to the switch statement in our controller that
+called resize from the model.
+
+In order to implement masking, we added another method to our model
+interface (IPMV2) and to our model (IPModelV2). A user would call
+mask,and give it:
+String filter - the filter they wanted to apply
+String name - the name of the image in the system
+String mask - the name of the mask image in the system
+String dest - the destination of the image after being affected
+Int increment - the increment used if brighten is called
+The mask method works by first creating a temporary image that is
+the original image affected in full by the chosen filter. The
+program then loops through the mask image pixel by pixel, adding
+to a return image. If the pixel on the mask is black, the filtered
+pixel is added to the return image, if not, the unaffected pixel
+from the original image is added to the return image. Finally, the
+return image is added to the images map with the given destination
+as a key. The last step was to add a switch case to the controller
+so a user could effectively call mask.
+
+
+
 ===== NEW FOR ASSIGNMENT #6 =====
 The GUI basically acts as the view and the controller, because all
 of the controlling is done within the GUI by clicking buttons.

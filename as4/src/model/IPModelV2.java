@@ -1,7 +1,5 @@
 package model;
 
-import java.util.InputMismatchException;
-
 import data.ColorPixel;
 
 /**
@@ -192,7 +190,8 @@ public class IPModelV2 extends ImageProModelImpl implements IPMV2 {
 
 
   @Override
-  public void mask(String filter, String name, String mask, String dest, int increment) throws IllegalArgumentException {
+  public void mask(String filter, String name, String mask,
+                   String dest, int increment) throws IllegalArgumentException {
     if (images.containsKey(name) && images.containsKey(mask)) {
 
       // Switch for the filter (BIG)

@@ -1,0 +1,48 @@
+load res/sun.jpg sun
+load res/sun-mask.jpg mask
+
+resize 5 30 sun sun-s1
+resize 30 30 sun sun-s2
+save res/sun-s1.jpg sun-s1
+save res/sun-s2.jpg sun-s2
+
+mask red-component sun mask sun-mask 0
+save res/sun-red.jpg sun-mask
+
+mask green-component sun mask sun-mask 0
+save res/sun-green.jpg sun-mask
+
+mask blue-component sun mask sun-mask 0
+save res/sun-blue.jpg sun-mask
+
+mask value-component sun mask sun-mask 0
+save res/sun-value.jpg sun-mask
+
+mask intensity-component sun mask sun-mask 0
+save res/sun-intensity.jpg sun-mask
+
+mask luma-component sun mask sun-mask 0
+save res/sun-luma.jpg sun-mask
+
+mask horizontal-flip sun mask sun-mask 0
+save res/sun-hor-flip.jpg sun-mask
+
+mask vertical-flip sun mask sun-mask 0
+save res/sun-vert-flip.jpg sun-mask
+
+mask brighten sun mask sun-mask 50
+save res/sun-bright.jpg sun-mask
+
+mask blur sun mask sun-mask 0
+save res/sun-blur.jpg sun-mask
+
+mask sharpen sun mask sun-mask 0
+save res/sun-sharp.jpg sun-mask
+
+mask greyscale sun mask sun-mask 0
+save res/sun-grey.jpg sun-mask
+
+mask sepia sun mask sun-mask 0
+save res/sun-sepia.jpg sun-mask
+
+quit

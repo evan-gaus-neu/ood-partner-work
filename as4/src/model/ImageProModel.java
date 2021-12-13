@@ -131,6 +131,7 @@ public interface ImageProModel {
    * @throws IllegalArgumentException if the name of the image to be manipulated
    *                                  doesn't exist in the map of images
    */
-  void resize(int newWidth, int newHeight, String name, String dest) throws IllegalArgumentException;
+  void resize(int newWidth, int newHeight,
+              String name, String dest) throws IllegalArgumentException;
 
 }

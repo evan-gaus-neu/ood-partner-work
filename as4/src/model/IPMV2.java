@@ -52,6 +52,7 @@ public interface IPMV2 extends ImageProModel {
    * @throws IllegalArgumentException if the name of the image to be manipulated
    *                                  doesn't exist in the map of images
    */
-  void mask(String filter, String name, String mask, String dest, int increment) throws IllegalArgumentException;
+  void mask(String filter, String name, String mask,
+            String dest, int increment) throws IllegalArgumentException;
 
 }

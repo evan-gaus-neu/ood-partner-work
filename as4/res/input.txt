@@ -27,4 +27,14 @@ save res/blur.ppm blur
 save res/sharp.ppm sharp
 save res/grey.ppm grey
 save res/sepia.ppm sepia
+load res/sun.jpg sun
+load res/sun-mask.jpg mask
+resize 5 30 sun sun-s1
+resize 30 30 sun sun-s2
+mask greyscale sun mask sun-m1 0
+mask blur sun mask sun-m2 0
+save res/sun-s1.jpg sun-s1
+save res/sun-s2.jpg sun-s2
+save res/sun-m1.jpg sun-m1
+save res/sun-m2.jpg sun-m2
 quit

@@ -223,7 +223,8 @@ public class ImageProModelImpl implements ImageProModel {
 
 
   @Override
-  public void resize(int newWidth, int newHeight, String name, String dest) throws IllegalArgumentException {
+  public void resize(int newWidth, int newHeight,
+                     String name, String dest) throws IllegalArgumentException {
     if (images.containsKey(name)) {
       // Get the old image
       ColorPixel[][] oldImage = images.get(name);
